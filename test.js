@@ -1,9 +1,9 @@
 //'use strict';
 
-var tmpl = global.tmpl || (global.tmpl = {});
+var tmpl = global.tmpl || (global.tmpl = {}); // в глобальной чтобы в каждом шаблоне не подключать require('./master.js');
+var master = require('./master.js');
 
-var wmaster = require('./master.js');
-require('./tmpl/tmpl.test_bench.js');
+require('./tmpl/tmpl.test_bench.js'); // даблон для теста
 
 
 var bench_vars = {
