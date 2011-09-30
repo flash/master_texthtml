@@ -1,9 +1,9 @@
-'use strict';
+п»ї//'use strict';
 
-var tmpl = global.tmpl || (global.tmpl = {}); // в глобальной чтобы в каждом шаблоне не подключать require('./master.js');
+var tmpl = global.tmpl || (global.tmpl = {}); // РІ РіР»РѕР±Р°Р»СЊРЅРѕР№ С‡С‚РѕР±С‹ РІ РєР°Р¶РґРѕРј С€Р°Р±Р»РѕРЅРµ РЅРµ РїРѕРґРєР»СЋС‡Р°С‚СЊ require('./master.js');
 var master = require('./master.js');
 
-require('./tmpl/tmpl.test_bench.js'); // даблон для теста
+require('./tmpl/tmpl.test_bench.js'); // РґР°Р±Р»РѕРЅ РґР»СЏ С‚РµСЃС‚Р°
 
 
 var bench_vars = {
@@ -148,16 +148,15 @@ var bench_vars = {
 
 
 
-
 ;(function() {
-	var T1, max = 10000, x = max, tx;
+	var T1, max = 10000, x = max, tx='';
 
 	T1 = new Date();
+	
 
 	while(x--) {
-		tx = wmaster.render('tmpl:bench', bench_vars);
+		tx = master.render('tmpl:bench', bench_vars);
 	};
-
 
 	T1 = new Date() - T1; 
 
