@@ -3,11 +3,12 @@
 'use strict';
 
 var new_master = new function() {
+	function new_clssNode(n) {
+		var c = function(){};
+		c.prototype.nodeName = n;
+		c.prototype.nodeType = 1;
+	}
 	var new_master = function (ns) {
-
-		//var attr_name = {cellSpacing: 'cellspacing', 'constructor': 'constructor'};
-		var attr_reserved = {parent: true, before: true, after: true, nodeName: true, nodeType: true, children: true, constructor: false}
-
 
 		function master(uu, q) {
 			if (!uu) return;
@@ -32,11 +33,10 @@ var new_master = new function() {
 
 			// create element
 			switch (nn) { // какнибуть нужно попробовать засунуть хеш вместо switch
-				case 'div': case 'li': case 'br': case 'span': case 'a': case 'td': case 'tr': case 'abbr': case 'h1': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
+				case 'em': case 'blockquote': case 'strong': case 'img': case 'dt': case 'dl': case 'dd': case 'div': case 'li': case 'ul': case 'br': case 'span': case 'a': case 'td': case 'th': case 'tr': case 'abbr': case 'h1': case 'h2': case 'h3': case 'h4': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
 					// много "case" может плохо сказаться. но это нужно тестить
 					nn = {nodeType: 1, nodeName: nn};
 					break;
-
 
 				default:
 					switch(typeof nn) {
@@ -55,7 +55,7 @@ var new_master = new function() {
 						
 						i = nn.indexOf(':');
 						nn = create_group(i ? nn.substring(0, i) : 'tmpl'
-							, nn.substring(++i)
+							, nn.substr(++i)
 							, p || false // хеш параметров
 							, ns // пространство имен наборов шаблонов
 							, master
@@ -361,7 +361,7 @@ var new_master = new function() {
 
 
 		if (0 < l) {
-			v = func(a[i], e, this);
+			v = func(a[0], e, this);
 			if (v || v === 0 || v === '') {
 				m.push(v)
 			};
