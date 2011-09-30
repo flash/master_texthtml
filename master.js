@@ -31,7 +31,7 @@ var new_master = new function() {
 
 
 			// create element
-			switch (nn) {
+			switch (nn) { // какнибуть нужно попробовать засунуть хеш вместо switch
 				case 'div': case 'li': case 'br': case 'span': case 'a': case 'td': case 'tr': case 'abbr': case 'h1': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
 					// много "case" может плохо сказаться. но это нужно тестить
 					nn = {nodeType: 1, nodeName: nn};
