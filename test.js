@@ -4,6 +4,8 @@ var tmpl = global.tmpl || (global.tmpl = {}); // в глобальной что�
 var master = require('./master.js');
 
 require('./tmpl/tmpl.test_bench.js'); // даблон для теста
+require('./tmpl/tmpl.habr_big.js'); // большой статический шаблон. там где много стической информации мастер не эффективен.
+
 
 
 var bench_vars = {
@@ -201,28 +203,49 @@ tmpl.jade_locals = function(_, p) {
 
 
 
+var value_for_testA = new function() {
+	for (var m = [], x = 1000;x--;) m.push([1,2,3,4,5,6,7,8,9,10])
+	return m
+};
+
+tmpl.testA = function(_, p) {
+	return _('table'
+		, _.map(p.table, function(row) {
+			return _('tr'
+				, _.map(row, function(v) {
+					return _('td.s'
+						, _.text(v)
+						)
+				})
+			)
+		})
+	)
+};
+
+
+
+
+
 ;(function() {
-	var T1, max = 100000, x = max, tx='';
+	var T1, max = 10000, x = max, tx='';
 
 	T1 = new Date();
 	
-
 	while(x--) {
-		//tx = master.render('tmpl:bench', bench_vars);
+		tx = master.render('tmpl:bench', bench_vars);
 		// tx = master.render('tmpl:jade_tiny', false);
 		// tx = master.render('tmpl:jade_small', false);
-		tx = master.render('tmpl:jade_locals', { title: 'Title', links: ['Home', 'About Us', 'Store', 'FAQ', 'Contact'] });
-		
-	
+		// tx = master.render('tmpl:jade_locals', { title: 'Title', links: ['Home', 'About Us', 'Store', 'FAQ', 'Contact'] });
+		// tx = master.render('tmpl:habr_big', false); // большой статический шаблон. там где много стической информации мастер не эффективен.
+		// tx = master.render('tmpl:testA', {table: value_for_testA});
+
 	};
 
 	T1 = new Date() - T1; 
 
 	//console.log(tx);
 	console.log(tx.lenght > 1000 ? '...'+tx.substr(-800) : tx);
-	
 	console.log( 'fps  '+(max/T1*1000) +'  time: '+(T1/max)+'   full time:'+ (T1/1000))
-
 })()
 
 

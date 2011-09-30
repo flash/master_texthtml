@@ -442,11 +442,12 @@ var objectToHTML = new function(rr) {
 			};
 			
 			if (v = nn[i]) {
-				if (x === 'class' || x === 'id') {
-					attrs += ' ' + x + '="' + v + '"';
-					continue;
-				} else {
-					attrs += ' ' + x + '="' + String(v).replace(entities_rg, entities_re) + '"';
+				switch(x) {
+					case 'class': case 'id': // эти атрибуты не экранирую потому как обычно в них не помешают недоверенные данные
+						attrs += ' ' + x + '="' + v + '"';
+						break;
+					default:
+						attrs += ' ' + x + '="' + String(v).replace(entities_rg, entities_re) + '"';
 				};
 			}
 			else if (v === 0) {
