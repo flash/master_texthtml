@@ -14,29 +14,31 @@ var new_master = new function() {
 
 			var nn = uu
 			, i, x, id, css, pn, sx, v, p, a
+			, append_index = 1 // с какого аргумента наченаются потомки
 			, is_group // флаг что это компонент (nodeType < 0)
 			, u
 			;
-			
+
 			arguments[0] = u;
 
 			if (q && !q.nodeType && typeof q == 'object') {
 				if (q.length === u || !isArray(q)) {
 					p = q;
 					arguments[1] = u;
+					append_index = 2; // можно начать с 3го элемента
 				};
 			};
 
 
 			// create element
 			switch (nn) {
-				case 'div': case 'li': case 'br': case 'span': case 'a': case 'td': case 'abbr':
+				case 'div': case 'li': case 'br': case 'span': case 'a': case 'td': case 'tr': case 'abbr': case 'h1': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
+					// много "case" может плохо сказаться. но это нужно тестить
 					nn = {nodeType: 1, nodeName: nn};
 					break;
 
 
 				default:
-
 					switch(typeof nn) {
 						case 'string': break;
 						case 'function':
@@ -122,8 +124,9 @@ var new_master = new function() {
 								break;
 
 
-							case 'text':
+							case 'text': // у меня сомнение что идеологически это правильно. но он зараза удобен )
 								arguments[0] = {nodeType: 3, data: v};
+								append_index = 0;
 								break;
 
 								// зарезервированные значения обьекта
@@ -155,9 +158,9 @@ var new_master = new function() {
 			if (!sx) {
 				if (pn) {
 					if (x = pn.children) {
-						append_nativ(pn, arguments, x)
+						append_nativ(pn, arguments, x, append_index)
 					} else {
-						append_nativ(pn, arguments, x = []); 
+						append_nativ(pn, arguments, x = [], append_index); 
 						if (x.length > 0) {
 							pn.children = x;
 						};
@@ -182,8 +185,9 @@ var new_master = new function() {
 	};
 
 
-	function append_nativ(nn, m, childs) {
-		var i = 0, l = m.length, a, x, n, u;
+	function append_nativ(nn, m, childs, start_index) {
+		//var i = start_index || 0, l = m.length, a, x, n, u;
+		var i = start_index, l = m.length, a, x, n, u;
 
 		while(i < l) {
 			a = m[i++];
@@ -234,7 +238,7 @@ var new_master = new function() {
 
 				case 'object':
 					if (isArray(a)) {
-						append_nativ(nn, a, childs);
+						append_nativ(nn, a, childs, 0);
 					};
 			};
 			
