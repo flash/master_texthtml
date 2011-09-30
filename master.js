@@ -229,7 +229,7 @@ var new_master = new function() {
 
 			switch (typeof a) {
 				case 'number': case 'string':
-					childs.push({nodeType: 3, data: a});
+					childs.push({nodeType: 3, data: a, parentNode: nn});
 					break;
 
 				case 'object':
@@ -463,10 +463,12 @@ var objectToHTML = new function(rr) {
 			for(i = 0, l = m.length; i < l ;) {
 				if (n = m[i++] ) {
 					if (n.parentNode !== nn) continue;
+					
 
 					switch(n.nodeType) {
 						case 1:
-							objectToHTML(n, buu)
+							objectToHTML(n, buu);
+
 							break;
 						
 						case 3: // text
