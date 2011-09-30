@@ -1,4 +1,4 @@
-﻿//'use strict';
+﻿'use strict';
 
 var tmpl = global.tmpl || (global.tmpl = {}); // в глобальной чтобы в каждом шаблоне не подключать require('./master.js');
 var master = require('./master.js');
