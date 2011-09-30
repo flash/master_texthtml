@@ -231,7 +231,7 @@ var rr = this.rr || (this.rr = {});
 
 			switch (typeof a) {
 				case 'number': case 'string':
-					childs.push({nodeType: 3, data: a});
+					childs.push({nodeType: 3, data: a, parentNode: nn});
 					break;
 
 				case 'object':
