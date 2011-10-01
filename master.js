@@ -4,7 +4,7 @@
 
 var new_master = new function() {
 
-	var new_master = function (ns) {
+	function new_master(tmpl) {
 
 		function master(uu, q) {
 			if (!uu) return;
@@ -12,7 +12,7 @@ var new_master = new function() {
 			var nn = uu
 			, i, x, id, css, pn, sx, v, p, a, c, type
 			, append_index = 1 // с какого аргумента наченаются потомки
-			, params = false // параметры
+			, pm = false // параметры
 			, is_group // флаг что это компонент (nodeType < 0)
 			, u
 			;
@@ -21,7 +21,7 @@ var new_master = new function() {
 
 			if (q && !q.nodeType && typeof q == 'object') {
 				if (q.length === u || !isArray(q)) {
-					params = q;
+					pm = q;
 					arguments[1] = u;
 					append_index = 2; // можно начать с 3го элемента
 				};
@@ -39,51 +39,42 @@ var new_master = new function() {
 					if (typeof nn !== 'string') {
 						if (typeof nn === 'function') {
 							if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
-							nn = new nn(master, params, false);
+							nn = new nn(master, pm, false);
 						};
 
-						if (!nn || !nn.nodeType) {
-							return; // подсунили чтота нето
+						if (!nn.nodeType) {
+							return text('[ ups!! **** ]') // ошибка в шаблоне. отобразим ее чтоб было видно
 						};
+
 						is_group = nn.nodeType < 0; // кешируем флажок что это обьект не HTMLElement
 						break;
 					};
 
-					if (nn.indexOf(':') !== -1) {  // оптимезирую так как : редко встречается
-						i = nn.indexOf(':');
-						if (x = ns[type = nn.substring(0, i) || 'tmpl']) {
-							c = x[v = nn.substr(++i)];
+					if (nn.indexOf('tmpl:') === 0) { // только "tmpl:" это шаблоны все остальное это элементы
+						c = tmpl[nn.substr(5)];
+						if (typeof c === 'function') {
+							if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
+							v = new c(master, pm, false);
 
-							if (typeof c === 'function') {
-								// master.space = x; // сомневаюсь что текстовом шаблонизаторе это нужно
-
-								if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
-								nn = new c(master, params, {name: v, type: type, space: x, uiclass: c});
-
-								// master.space = u;
-
-								if (!nn.nodeType) {
-									return;  // чтота нето. 
-								};
-
-								is_group = nn.nodeType < 0;
-								break;
-							}
-							else {
-								return text('[is not '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
+							if (!nn.nodeType) {
+								return text('[ ups!! '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
 							};
-						};
 
-						//какой неизвестный элемент. к примеру "svg:path"
-						nn = {nodeType: 1, nodeName: nn};
-						break; 
+							is_group = v.nodeType < 0;
+							nn = v;
+							break;
+						}
+						else {
+							return text('[ no template '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
+						}
 					};
 
-					
 
 					// tag.className#idNode
+					// ------------------------------
+
 					if (nn.indexOf('#') > 0) {  // оптимезирую так как id редко встречается
-						x = nn.indexOf('#');
+						i = nn.indexOf('#');
 						id = nn.substr(x + 1);
 					} else {
 						x = u;
@@ -102,24 +93,17 @@ var new_master = new function() {
 
 			
 			// set params
-			if (params) {
+			if (pm) {
 				if (is_group) {
 					// nn._set_parameters - дает право мастеру изменянять значения через функцию set({key: value, ...})
 					if (nn._set_parameters === true && typeof nn.set == 'function') {
-						nn.set(params);
+						nn.set(pm);
 					};
 				} 
 				else {
-					for (x in params) {
-						v = params[x];
+					for (x in pm) {
+						v = pm[x];
 						if (v === u) continue;
-
-						/*
-						if (i = attr_name[x]) { // алиасы атрибутов
-							nn[i] = v; 
-							continue;
-						};
-						*/
 
 						switch (x) {
 							case 'css':
@@ -137,12 +121,14 @@ var new_master = new function() {
 								break;
 
 
-							case 'text': // у меня сомнение что идеологически это правильно. но он зараза удобен ). атрибут text при этом создать не получиться
+							// у меня сомнение что идеологически это правильно. но он зараза удобен ). 
+							// атрибут text при этом создать не получиться
+							case 'text': 
 								arguments[0] = {nodeType: 3, data: v};
 								append_index = 0;
 								break;
 
-								// зарезервированные значения обьекта
+							// зарезервированные значения
 							case 'parent': case 'before': case 'after': case 'nodeName': case 'nodeType': case 'children':
 								break;
 
@@ -169,11 +155,11 @@ var new_master = new function() {
 			};
 
 			if (!sx) {
-				if (pn) {
+				if (pn) {// && append_index < arguments.length
 					if (x = pn.children) {
-						append_nativ(pn, arguments, x, append_index)
+						append_nativ(pn, x, arguments, append_index)
 					} else {
-						append_nativ(pn, arguments, x = [], append_index); 
+						append_nativ(pn, x = [], arguments, append_index); 
 						if (x.length > 0) {
 							pn.children = x;
 						};
@@ -184,11 +170,8 @@ var new_master = new function() {
 			};
 
 			// return and insert element
-			return params && !is_group ? params.parent || params.after || params.before ? insert(nn, params, is_group) : nn : nn ;
+			return pm && !is_group ? pm.parent || pm.after || pm.before ? insert(nn, pm, is_group) : nn : nn ;
 		};
-
-		master.global = ns || (ns = {});
-		master.namespace = ns.tmpl;
 
 		master.text = text;
 		master.write = write;
@@ -197,10 +180,9 @@ var new_master = new function() {
 		return master;
 	};
 
-
-	function append_nativ(nn, m, childs, start_index) {
+	function append_nativ(nn, childs, m, ix) {
 		//var i = start_index || 0, l = m.length, a, x, n, u;
-		var i = start_index, l = m.length, a, x, n, u;
+		var i = ix, l = m.length, a, x, n, u; //, l = len || m.length
 
 		while(i < l) {
 			a = m[i++];
@@ -216,9 +198,13 @@ var new_master = new function() {
 						n.splice(n.indexOf(a), 1);
 					};
 					*/
-					a.parentNode = nn;
+					//a.parentNode = nn;
+					//childs.push(a);
 
-					childs.push(a);
+					if (!a.parentNode) {
+						a.parentNode = true;
+						childs.push(a);
+					};
 					continue;
 				} 
 				else if (x < 0) {
@@ -234,7 +220,7 @@ var new_master = new function() {
 							};
 							*/
 
-							a.parentNode = nn;
+							//a.parentNode = nn;
 							childs.push(a);
 						};
 					};
@@ -246,12 +232,12 @@ var new_master = new function() {
 
 			switch (typeof a) {
 				case 'number': case 'string':
-					childs.push({nodeType: 3, data: a, parentNode: nn});
+					childs.push({nodeType: 3, data: a, parentNode: true});
 					break;
 
 				case 'object':
 					if (isArray(a)) {
-						append_nativ(nn, a, childs, 0);
+						append_nativ(nn, childs, a, 0); //, a.length
 					};
 			};
 			
@@ -305,7 +291,7 @@ var new_master = new function() {
 
 		if (is_group) {
 			return nn;
-		}
+		};
 
 		// insert
 		if (a = p.after) {
@@ -409,7 +395,6 @@ var objectToHTML = new function(rr) {
 	function objectToHTML(nn, buu) {
 		var m, n, x, v, i, l, u
 		, name = nn.nodeName 
-		//, is_tag = !!name
 		, attrs = ''
 		;
  
@@ -438,36 +423,30 @@ var objectToHTML = new function(rr) {
 		};
 
 		switch(name) {
-			case 'name': case 'meta':
+			case 'meta': case 'br': 
 				buu.push('<' + name + attrs + '/>'); // потомков у него нет
 				return;
 		};
 
 		buu.push('<' + name + attrs + '>');
 
-		
 
-		
 		// потомки
 		if (m = nn.children) {
 			for(i = 0, l = m.length; i < l ;) {
 				if (n = m[i++] ) {
-					if (n.parentNode !== nn) continue;
-					
+					//if (n.parentNode !== nn) continue;
 
 					switch(n.nodeType) {
 						case 1:
 							objectToHTML(n, buu);
-
 							break;
 						
 						case 3: // text
-							//buu.push(htmlEscape(n.data));
-
 							buu.push(String(n.data).replace(entities_rg, entities_re) );
 							break;
 						
-						case 42: // как есть
+						case 42: // как есть _.write('...')
 							buu.push(n.data);
 							break;
 					};
@@ -481,6 +460,7 @@ var objectToHTML = new function(rr) {
 
 	return objectToHTML;
 	
+	/*
 	return function(nn, buu) {
 		var type = nn.nodeType;
 		if (type < 0) {
@@ -496,46 +476,53 @@ var objectToHTML = new function(rr) {
 				break;
 		};
 	};
+	*/
 };
 
 
-;new function() {
-	var master = new_master({
-		tmpl: global.tmpl || (global.tmpl = {})
-	});
 
-	var tmpl_global = master.global;
 
-	exports.master = master; // конструктор по умолчанию 
-	exports.master_create = new_master; // если вдруг нужно создать свой новый.
-	exports.toHTML = objectToHTML; // конвектор обьектной модели в тект HTML
-	
-	exports.render = function(nn, params) {
-			var B = [], s, x;
 
-			if (!nn) return;
+// help
+// -----------------------
 
-			switch(typeof nn) {
-				case 'function': break;
-				case 'string':
-					x = nn.indexOf(':');
-					if (x > 0) {
-						if (s = tmpl_global[nn.substring(0, x)]) {
-							if (nn = s[x = nn.substr(++x)]) {
-								break;
-							};
-						};
-					};
-					return;
+// global.tmpl единственная область видимости шаблонов
+// для других используйте прямые сылки вида _(mytmpl.xxxxx, ...)
+// ненужно создавать иераргию tmpl.xxxx.eeee . это усложняет код.
+// прямой вызов _(tmpl.xxx) шаблона немного быстрее чем через _('tmpl:xxx')
+// но незначительно, а также будет сложнее отслеживать ошибки
 
-				default:
-					return;
+
+
+// setup
+// -----------------------
+
+var tmpl = global.tmpl||(global.tmpl = {});
+var master = new_master(tmpl); 
+
+
+exports.master = master; // конструктор
+exports.toHTML = objectToHTML; // конвектор обьектной модели в тект HTML 
+
+// html рендринг
+exports.render = function(nn, params) {
+	var B = [], s, x;
+
+	switch(typeof nn) {
+		case 'function': break;
+		case 'string':
+			if (nn = nn.indexOf('tmpl:') === 0 && tmpl[nn.substr(5)] ) {
+				break;
 			};
 
-		if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
-
-		objectToHTML(new nn(master, params, false), B);
-		return B.join('')
+		default:
+			return;
 	};
+
+	if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
+	objectToHTML(new nn(master, params, false), B);
+
+	return B.join('')
 };
+
 

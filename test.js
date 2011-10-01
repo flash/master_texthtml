@@ -1,10 +1,13 @@
 ﻿'use strict';
 
-var tmpl = global.tmpl || (global.tmpl = {}); // в глобальной чтобы в каждом шаблоне не подключать require('./master.js');
 var master = require('./master.js');
+var tmpl = global.tmpl; // мастер создал глобальный хеш для шаблонов
 
-require('./tmpl/tmpl.test_bench.js'); // даблон для теста
+require('./tmpl/tmpl.test_bench.js'); 
+require('./tmpl/tmpl.test_jade.js'); 
 require('./tmpl/tmpl.habr_big.js'); // большой статический шаблон. там где много стической информации мастер не эффективен.
+
+
 
 
 
@@ -149,58 +152,6 @@ var bench_vars = {
 };
 
 
-tmpl.jade_tiny = function(_, p) {
-	return _('html'
-		, _('body'
-			,_('h1'
-			 , "Title"
-			)
-		)
-	);
-};
-
-tmpl.jade_small = function(_, p) {
-	return _('body'
-		, _('body'
-			, _('h1', "Title")
-			, _('ul'
-				, _('li'
-					, _('a', {href: '#'}, "Home")
-				)
-				, _('li'
-					, _('a', {href: '#'}, "About Us")
-				)
-				, _('li'
-					, _('a', {href: '#'}, "Store")
-				)
-				, _('li'
-					, _('a', {href: '#'}, "FAQ")
-				)
-				, _('li'
-					, _('a', {href: '#'}, "Contact")
-				)
-			)
-		)
-	)
-};
-
-tmpl.jade_locals = function(_, p) {
-	return _('html'
-		, _('body'
-			,_('h1'
-				, _.text(p.title)
-			)
-			, _('ul#menu'
-				, _.map(p.links, function(link) {
-					return _('li'
-						, _('a', {href: '#'}, _.text(link))
-					)
-				})
-			)
-		)
-	)
-};
-
 
 
 var value_for_testA = new function() {
@@ -229,7 +180,12 @@ tmpl.testA = function(_, p) {
 ;(function() {
 	var T1, max = 10000, x = max, tx='';
 
+	var fn = function() {};
+
+
 	T1 = new Date();
+	
+	
 	
 	while(x--) {
 		tx = master.render('tmpl:bench', bench_vars);
@@ -238,7 +194,6 @@ tmpl.testA = function(_, p) {
 		// tx = master.render('tmpl:jade_locals', { title: 'Title', links: ['Home', 'About Us', 'Store', 'FAQ', 'Contact'] });
 		// tx = master.render('tmpl:habr_big', false); // большой статический шаблон. там где много стической информации мастер не эффективен.
 		// tx = master.render('tmpl:testA', {table: value_for_testA});
-
 	};
 
 	T1 = new Date() - T1; 
@@ -247,7 +202,6 @@ tmpl.testA = function(_, p) {
 	console.log(tx.lenght > 1000 ? '...'+tx.substr(-800) : tx);
 	console.log( 'fps  '+(max/T1*1000) +'  time: '+(T1/max)+'   full time:'+ (T1/1000))
 })()
-
 
 
 

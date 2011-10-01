@@ -1,12 +1,15 @@
-﻿
-tmpl.habr_big = function(_, p){
+﻿'use strict';
+
+tmpl.habr_big = function(_ , p, s) {
 	// elements: 19688, show: 17475, text:4615
 	// href: http://habrahabr.ru/blogs/popular_science/87751/
+	
+	
 
-	_('body.blogs blog-panel guest#main-page'
-		, _('iframe', {src: 'http://pink.habralab.ru/cgi-bin/iframe/HABRAHABR_INNER_100x90.HABRAHABR_INNER_100x90?88025&options=T', width: '100%', height: '90'})
+	return  _('body.blogs blog-panel guest#main-page'
+		, _('iframe', {src: 'http://pink.habralab.ru/cgi-bin/iframe/HABRAHABR_INNER_100x90.HABRAHABR_INNER_100x90?13477&options=T', width: '100%', height: '90'})
 		, _('div', {style: 'height: 0pt; overflow: hidden;'}
-			, _('iframe', {src: 'http://pink.habralab.ru/cgi-bin/iframe/STATISTIC_INNER.STATISTIC_INNER?67592&options=T', width: '1', height: '1'})
+			, _('iframe', {src: 'http://pink.habralab.ru/cgi-bin/iframe/STATISTIC_INNER.STATISTIC_INNER?71614&options=T', width: '1', height: '1'})
 		)
 		, _('div.header'
 			, _('dl.panel-personal'
@@ -65,7 +68,7 @@ tmpl.habr_big = function(_, p){
 				)
 				, _('li', {style: 'margin-bottom: 0pt;'}
 					, _('div.banner_special'
-						, _('iframe', {src: 'http://pink.habralab.ru/cgi-bin/iframe/habr_special_135_35?39335&options=T', width: '135', height: '35'})
+						, _('iframe', {src: 'http://pink.habralab.ru/cgi-bin/iframe/habr_special_135_35?46434&options=T', width: '135', height: '35'})
 					)
 				)
 			)
@@ -166,7 +169,7 @@ tmpl.habr_big = function(_, p){
 							, "Вход в одну из испытательных штолен в горном массиве Дегелен(туннелей), где проводились ядерные испытания. Хорошо видны кольцевые структуры, поддерживавшие демонтированный канал вывода излучений очень большого диаметра или концевой бокс с облучаемым оборудованием или материалами"
 							, _('br')
 							, _('br')
-							, _('img', {src: 'http://habrastorage.org/storage/habraeffect/73/18/7318a68834592112eabf13068a4f8e63.jpg', width: 750, height: 559})
+							, _('img', {src: 'http://habrastorage.org/storage/habraeffect/73/18/7318a68834592112eabf13068a4f8e63.jpg', width: 749, height: 559})
 							, _('br')
 							, "Вакуумный (вакуумируемый) бокс на выходе канала вывода излучений из штольни 169-2 на площадке Дегелен. Вакуумированные боксы применялись для получения при ядерных испытаниях условий, близких к условиям космического пространства, вероятно для испытания радиационной устойчивости вооружений и систем космического базирования."
 							, _('br')
@@ -19861,7 +19864,7 @@ tmpl.habr_big = function(_, p){
 									, _('div.entry-content-only'
 										, ">>Только если США испытывала свое вооружение во внешних войнах СССР испытывало все на своих гражданах."
 										, _('br')
-										, _('img', {src: 'http://wiki.redrat.ru/lib/exe/fetch.php?media=%d0%bf%d1%80%d0%b5%d0%b4:bjdog5.jpg', width: 755, height: 0})
+										, _('img', {src: 'http://wiki.redrat.ru/lib/exe/fetch.php?media=%d0%bf%d1%80%d0%b5%d0%b4:bjdog5.jpg', width: 747, height: 0})
 										, _('br')
 										, "1 ноября 1951 года. Войсковые испытания ядерного оружия в США."
 										, _('br')
@@ -29237,7 +29240,7 @@ tmpl.habr_big = function(_, p){
 								, _('div.blog-about-text-content'
 									, _('div.stats'
 										, _('div.members_count#members_count'
-											, "8901 читатель"
+											, "8905 читателей"
 										)
 										, _('div.posts_count'
 											, "506 постов"
@@ -29248,7 +29251,7 @@ tmpl.habr_big = function(_, p){
 						)
 					)
 					, _('div.banner'
-						, _('iframe', {src: 'http://pink.habralab.ru/cgi-bin/iframe/HABRAHABR_INNER_240x400.HABRAHABR_INNER_240x400?81318&options=T', width: '240', height: '400'})
+						, _('iframe', {src: 'http://pink.habralab.ru/cgi-bin/iframe/HABRAHABR_INNER_240x400.HABRAHABR_INNER_240x400?20187&options=T', width: '240', height: '400'})
 					)
 					, _('div.live dailybest'
 						, _('div.bg-bott-r'
@@ -29267,23 +29270,6 @@ tmpl.habr_big = function(_, p){
 												, _('a', {href: 'http://habrahabr.ru/company/bookmate/blog/120315/#gift'}
 													, _('img.help-tip', {src: 'http://habrahabr.ru/i/special/bookmate/big.png', width: 20, height: 28, style: 'vertical-align: top; float: left; display: block; margin-right: 10px; margin-top: 4px;'})
 												)
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/image_processing/'}
-													, "Обработка изображений"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/image_processing/129437/'}
-													, "The Foundry Nuke. Введение"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dd'
-										, _('dl'
-											, _('dt'
 												, _('a.where', {href: 'http://habrahabr.ru/blogs/startup/'}
 													, "Стартапы"
 												)
@@ -29301,14 +29287,14 @@ tmpl.habr_big = function(_, p){
 									, _('dd'
 										, _('dl'
 											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/services/'}
-													, "Сервисы"
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/it_bigraphy/'}
+													, "IT-Биографии"
 												)
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/services/129471/'}
-													, "Google Analytics теперь показывает статистику посещений в режиме реального времени"
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/it_bigraphy/129518/'}
+													, "Подборка интересных фактов о великих айтишниках"
 												)
 											)
 										)
@@ -29318,31 +29304,14 @@ tmpl.habr_big = function(_, p){
 									, _('dd'
 										, _('dl'
 											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/company/mailru/blog/'}
-													, "Блог компании Mail.Ru Group"
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/controllers/'}
+													, "Программинг микроконтроллеров"
 												)
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/company/mailru/blog/129476/'}
-													, "Язвы и грабли CSV и Excel: проблемы и решения"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/company/yandex/blog/'}
-													, "Блог компании Яндекс"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/company/yandex/blog/129487/'}
-													, "Маршруты на автомобиле с учетом пробок по всей России"
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/controllers/127890/'}
+													, "консоль в микроконтроллере с micro readline"
 												)
 											)
 										)
@@ -29369,31 +29338,14 @@ tmpl.habr_big = function(_, p){
 									, _('dd'
 										, _('dl'
 											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/firefox/'}
-													, "Огненный лис"
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/virus/'}
+													, "Вирусы (и антивирусы)"
 												)
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/firefox/129474/'}
-													, "Контекстные меню на языке HTML5 пришли, и выглядят они сносно"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/php/'}
-													, "PHP"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/php/128083/'}
-													, "Smarty vs. Twig: производительность"
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/virus/129515/'}
+													, "Microsoft Security Essentials удаляет Google Chrome, считая его PWS Win32/Zbot"
 												)
 											)
 										)
@@ -29426,8 +29378,59 @@ tmpl.habr_big = function(_, p){
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/study/129468/'}
-													, "Дистанционный курс по «Machine learning» от Стэнфордского университета"
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/study/129521/'}
+													, "From user to developer"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/startup/'}
+													, "Стартапы"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/startup/129514/'}
+													, "Tactoom – закрытое бета-тестирование"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/easyelectronics/'}
+													, "Электроника для начинающих"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/easyelectronics/129516/'}
+													, "Простейшие логические цепи. Часть 2: правила соединения модулей между собой и анализ простых логических схем"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/gps/'}
+													, "GPS"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/gps/129395/'}
+													, "OpenGTS open-source решение для отслеживания транспортных средств"
 												)
 											)
 										)
@@ -29671,190 +29674,8 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/MrMySQL/'}
-											, "MrMySQL"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/macosxdev/'}
-													, "Разработка под Apple iOS"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/macosxdev/129146/#comment_4288248'}
-													, "Трудный путь новичка в топ 5 русского App Store"
-												)
-												, _('span.total'
-													, "113"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/gaelpa/'}
-											, "gaelpa"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/startup/'}
-													, "Стартапы"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/startup/129514/#comment_4288247'}
-													, "Tactoom – закрытое бета-тестирование"
-												)
-												, _('span.total'
-													, "12"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/BeriliUM/'}
-											, "BeriliUM"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/controllers/'}
-													, "Программинг микроконтроллеров"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/controllers/127890/#comment_4288246'}
-													, "консоль в микроконтроллере с micro readline"
-												)
-												, _('span.total'
-													, "7"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/nickpetrovsky/'}
-											, "nickpetrovsky"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/sysadm/'}
-													, "Системное администрирование"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/sysadm/129510/#comment_4288245'}
-													, "VPN на 50+ филиалов на коленке"
-												)
-												, _('span.total'
-													, "6"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/KWAZARIK/'}
-											, "KWAZARIK"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/internet/'}
-													, "Интернет"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/internet/129240/#comment_4288244'}
-													, "Тюнинг для папки Public в Dropbox"
-												)
-												, _('span.total'
-													, "43"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Firues/'}
-											, "Firues"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/startup/'}
-													, "Стартапы"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/startup/129470/#comment_4288243'}
-													, "Быстрые знакомства в интернете"
-												)
-												, _('span.total'
-													, "169"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/AcidSlayer/'}
-											, "AcidSlayer"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/iphone/'}
-													, "iPhone"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/iphone/127402/#comment_4288242'}
-													, "Оффлайн клиент для Habrahabr (v1.2)"
-												)
-												, _('span.total'
-													, "23"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/molo/'}
-											, "molo"
+										, _('a', {href: 'http://habrahabr.ru/users/Burner/'}
+											, "Burner"
 										)
 										, "→"
 									)
@@ -29867,11 +29688,11 @@ tmpl.habr_big = function(_, p){
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/smartphone_ru/129492/#comment_4288241'}
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/smartphone_ru/129492/#comment_4289432'}
 													, "Я пользуюсь смартфоном фирмы…"
 												)
 												, _('span.total'
-													, "184"
+													, "256"
 												)
 											)
 										)
@@ -29879,25 +29700,25 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/EvilsInterrupt/'}
-											, "EvilsInterrupt"
+										, _('a', {href: 'http://habrahabr.ru/users/diamant/'}
+											, "diamant"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/programming/'}
-													, "Программирование"
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/google_chrome/'}
+													, "Google Chrome"
 												)
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/programming/129348/#comment_4288240'}
-													, "О Test Driven Development (TDD) из личного опыта"
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/google_chrome/129500/#comment_4289431'}
+													, "StatCounter: в декабре Chrome обгонит Firefox и станет браузером № 2 в мире"
 												)
 												, _('span.total'
-													, "26"
+													, "160"
 												)
 											)
 										)
@@ -29905,25 +29726,25 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/ertaquo/'}
-											, "ertaquo"
+										, _('a', {href: 'http://habrahabr.ru/users/Kirhgoff/'}
+											, "Kirhgoff"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/iTablet/'}
-													, "Планшеты"
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/it_bigraphy/'}
+													, "IT-Биографии"
 												)
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/iTablet/129512/#comment_4288239'}
-													, "Samsung представил Galaxy Tab 7.0 Plus"
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/it_bigraphy/129518/#comment_4289430'}
+													, "Подборка интересных фактов о великих айтишниках"
 												)
 												, _('span.total'
-													, "3"
+													, "43"
 												)
 											)
 										)
@@ -29931,25 +29752,25 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Marklee/'}
-											, "Marklee"
+										, _('a', {href: 'http://habrahabr.ru/users/VolCh/'}
+											, "VolCh"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/apple/'}
-													, "Apple"
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/copyright/'}
+													, "Копирайт"
 												)
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/apple/129296/#comment_4288237'}
-													, "Let’s Talk iPhone — 4 октября 2011 21:00 MSK"
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/copyright/129486/#comment_4289428'}
+													, "80% россиян не готовы отказаться от пиратского контента"
 												)
 												, _('span.total'
-													, "104"
+													, "93"
 												)
 											)
 										)
@@ -29957,34 +29778,8 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Evengard/'}
-											, "Evengard"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/php/'}
-													, "PHP"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/php/128083/#comment_4288232'}
-													, "Smarty vs. Twig: производительность"
-												)
-												, _('span.total'
-													, "124"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Emelyanov/'}
-											, "Emelyanov"
+										, _('a', {href: 'http://habrahabr.ru/users/bishai/'}
+											, "bishai"
 										)
 										, "→"
 									)
@@ -29997,8 +29792,242 @@ tmpl.habr_big = function(_, p){
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/startup/129503/#comment_4288231'}
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/startup/129514/#comment_4289427'}
+													, "Tactoom – закрытое бета-тестирование"
+												)
+												, _('span.total'
+													, "148"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/Apx/'}
+											, "Apx"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/java/'}
+													, "JAVA"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/java/129494/#comment_4289425'}
+													, "Правильный Singleton в Java"
+												)
+												, _('span.total'
+													, "52"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/PSNet/'}
+											, "PSNet"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/livestreet/'}
+													, "LiveStreet CMS"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/livestreet/129490/#comment_4289423'}
+													, "Релиз LiveStreet 0.5.1 и переезд на GitHub"
+												)
+												, _('span.total'
+													, "13"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/zlo/'}
+											, "zlo"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/startup/'}
+													, "Стартапы"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/startup/129506/#comment_4289417'}
+													, "Поиск SaaS решения по организации работы стартап команды"
+												)
+												, _('span.total'
+													, "27"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/Screatch/'}
+											, "Screatch"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/robot/'}
+													, "Робототехника"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/robot/129525/#comment_4289416'}
+													, "Эрик Шмидт: наши автономные машины ездят лучше, чем вы… пьяный"
+												)
+												, _('span.total'
+													, "10"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/ozgg/'}
+											, "ozgg"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/startup/'}
+													, "Стартапы"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/startup/129470/#comment_4289415'}
+													, "Быстрые знакомства в интернете"
+												)
+												, _('span.total'
+													, "246"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/Starnger/'}
+											, "Starnger"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/virus/'}
+													, "Вирусы (и антивирусы)"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/virus/129515/#comment_4289413'}
+													, "Microsoft Security Essentials удаляет Google Chrome, считая его PWS Win32/Zbot"
+												)
+												, _('span.total'
+													, "130"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/zBit/'}
+											, "zBit"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/android/'}
+													, "Android"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/android/129523/#comment_4289412'}
+													, "Обзор 3D-телефона от Sharp в сравнении с HTC Evo 3D и LG Optimus 3D"
+												)
+												, _('span.total'
+													, "5"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/pratamishus/'}
+											, "pratamishus"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/startup/'}
+													, "Стартапы"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/startup/129503/#comment_4289406'}
 													, "Каталог брендов по $250 (с доменами .com)"
+												)
+												, _('span.total'
+													, "38"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/degorov/'}
+											, "degorov"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dt'
+												, _('a.where', {href: 'http://habrahabr.ru/blogs/controllers/'}
+													, "Программинг микроконтроллеров"
+												)
+												, "→"
+											)
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/blogs/controllers/127890/#comment_4289405'}
+													, "консоль в микроконтроллере с micro readline"
 												)
 												, _('span.total'
 													, "24"
@@ -30009,51 +30038,25 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/arilou_camper/'}
-											, "arilou_camper"
+										, _('a', {href: 'http://habrahabr.ru/users/Terol/'}
+											, "Terol"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/social_networks/'}
-													, "Социальные сети"
+												, _('a.where', {href: 'http://habrahabr.ru/company/mailru/blog/'}
+													, "Блог компании Mail.Ru Group"
 												)
 												, "→"
 											)
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/social_networks/129488/#comment_4288230'}
-													, "Граф интересов (Interest graph): новый принцип взаимодействия в сети"
+												, _('a.topic', {href: 'http://habrahabr.ru/company/mailru/blog/129476/#comment_4289400'}
+													, "Язвы и грабли CSV и Excel: проблемы и решения"
 												)
 												, _('span.total'
-													, "45"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/wholeman/'}
-											, "wholeman"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dt'
-												, _('a.where', {href: 'http://habrahabr.ru/blogs/mobiledev/'}
-													, "Mobile Development"
-												)
-												, "→"
-											)
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/blogs/mobiledev/129314/#comment_4288229'}
-													, "Новое имя среди мобильных платформ: Tizen"
-												)
-												, _('span.total'
-													, "73"
+													, "36"
 												)
 											)
 										)
@@ -30098,20 +30101,20 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('div.company_info'
 									, _('div.name'
-										, _('img.favicon', {src: 'http://habrahabr.ru/media/company/favicon/2/favicon_169.ico', width: 16, height: 16})
-										, _('a.title', {href: 'http://habrahabr.ru/company/beeline/'}
-											, "ВымпелКом (Билайн)"
+										, _('img.favicon', {src: 'http://habrahabr.ru/media/company/favicon/15/favicon_1524.ico', width: 16, height: 16})
+										, _('a.title', {href: 'http://habrahabr.ru/company/MotivateClock/'}
+											, "Motivate Clock"
 										)
 									)
 									, _('p'
 										, "Последний пост:"
-										, _('a', {href: 'http://habrahabr.ru/company/beeline/blog/129424/'}
-											, "Фемтосоты: своя сота, свои правила"
+										, _('a', {href: 'http://habrahabr.ru/company/MotivateClock/blog/129239/'}
+											, "Старт Motivate Clock: “Не думай о секундах свысока”"
 										)
 									)
 									, _('div.like'
 										, _('div#fans_count'
-											, "651 поклонник"
+											, "8 поклонников"
 										)
 									)
 								)
@@ -30126,56 +30129,16 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/rebraining/'}
-											, "rebraining"
+										, _('a', {href: 'http://habrahabr.ru/users/Fillo/'}
+											, "Fillo"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11987/#comment_61748'}
-													, "Чат для сайта Google Talk chatback badge - хороший ли выбор?"
-												)
-												, _('span.total'
-													, "2"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Sky4eg/'}
-											, "Sky4eg"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11982/#answer_51677'}
-													, "Yii - идеи для полезных расширений"
-												)
-												, _('span.total'
-													, "3"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/ZimM/'}
-											, "ZimM"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11983/#comment_61745'}
-													, "Почему в мобильных браузерах нельзя сразу захватить фото с камеры?"
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12012/#comment_61820'}
+													, "Что- то непонятное с браузерами"
 												)
 												, _('span.total'
 													, "1"
@@ -30186,16 +30149,96 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Jazzist/'}
-											, "Jazzist"
+										, _('a', {href: 'http://habrahabr.ru/users/an2kor/'}
+											, "an2kor"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11976/#answer_51676'}
-													, "Когда писать ТЗ - до или после подписания договора?"
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12010/#answer_51742'}
+													, "Java open-source проекты"
+												)
+												, _('span.total'
+													, "1"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/Emin/'}
+											, "Emin"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12004/#comment_61819'}
+													, "Автообновление flash плеера"
+												)
+												, _('span.total'
+													, "2"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/valzevul/'}
+											, "valzevul"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12007/#comment_61818'}
+													, "Перенос домена с Gandi.net"
+												)
+												, _('span.total'
+													, "2"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/shadowalone/'}
+											, "shadowalone"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12009/#comment_61817'}
+													, "Балансировка канала в linux"
+												)
+												, _('span.total'
+													, "1"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/Merser/'}
+											, "Merser"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12008/#answer_51738'}
+													, "Какие ноутбуки в целом надёжнее?"
 												)
 												, _('span.total'
 													, "8"
@@ -30206,19 +30249,19 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/rPman/'}
-											, "rPman"
+										, _('a', {href: 'http://habrahabr.ru/users/exvel/'}
+											, "exvel"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11972/#answer_51675'}
-													, "Будут ли старые файлы раздаваться по средством DHT, если создать новый торрент?"
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12003/#comment_61815'}
+													, "Почему в магазине Windows Phone такие бешеные цены?"
 												)
 												, _('span.total'
-													, "1"
+													, "3"
 												)
 											)
 										)
@@ -30226,16 +30269,16 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Letum/'}
-											, "Letum"
+										, _('a', {href: 'http://habrahabr.ru/users/rebraining/'}
+											, "rebraining"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11986/#comment_61744'}
-													, "Вынос WiFi антенны на улицу"
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11994/#comment_61809'}
+													, "Авторские права на тексты, размещенные в интернете"
 												)
 												, _('span.total'
 													, "2"
@@ -30246,16 +30289,16 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/lex89/'}
-											, "lex89"
+										, _('a', {href: 'http://habrahabr.ru/users/iasonov/'}
+											, "iasonov"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11934/#comment_61743'}
-													, "Выбор ноутбука с матовым экраном диагональю от 15 дюймов"
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/10251/#comment_61807'}
+													, "Ноут Lenovo ThinkPad. Помогите выбрать"
 												)
 												, _('span.total'
 													, "6"
@@ -30266,16 +30309,156 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Zamorozka/'}
-											, "Zamorozka"
+										, _('a', {href: 'http://habrahabr.ru/users/JeanLouis/'}
+											, "JeanLouis"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11971/#comment_61741'}
-													, "Тема для диплома"
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11961/#comment_61806'}
+													, "На каких англоязычных ресурсах можно встретить больше всего владельцев сайтов?"
+												)
+												, _('span.total'
+													, "5"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/mekegi/'}
+											, "mekegi"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12002/#answer_51727'}
+													, "Интернет-магазин и ООП"
+												)
+												, _('span.total'
+													, "3"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/d43/'}
+											, "d43"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11995/#comment_61803'}
+													, "CNAME в DNS - хороший ли вариант?"
+												)
+												, _('span.total'
+													, "3"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/AlexP11223/'}
+											, "AlexP11223"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11807/#comment_61794'}
+													, "Инвайты на steamgifts.com"
+												)
+												, _('span.total'
+													, "44"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/ihor/'}
+											, "ihor"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11224/#answer_51721'}
+													, "Инвайты на видеосервисы"
+												)
+												, _('span.total'
+													, "135"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/Hoorsh/'}
+											, "Hoorsh"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11581/#comment_61791'}
+													, "Какие проблемы могут быть с доставкой и растаможкой телефона?"
+												)
+												, _('span.total'
+													, "13"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/bear11/'}
+											, "bear11"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11983/#answer_51718'}
+													, "Почему в мобильных браузерах нельзя сразу захватить фото с камеры?"
+												)
+												, _('span.total'
+													, "3"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/Fesor/'}
+											, "Fesor"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11982/#comment_61787'}
+													, "Yii - идеи для полезных расширений"
 												)
 												, _('span.total'
 													, "4"
@@ -30286,16 +30469,36 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/pietrovich/'}
-											, "pietrovich"
+										, _('a', {href: 'http://habrahabr.ru/users/Optik/'}
+											, "Optik"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11981/#comment_61739'}
-													, "Пара глупых вопросов об индексах MSSQL"
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11955/#answer_51715'}
+													, "Какие книги следует читать, чтоб стать программистом"
+												)
+												, _('span.total'
+													, "8"
+												)
+											)
+										)
+									)
+								)
+								, _('dl.air-comment'
+									, _('dt.who'
+										, _('a', {href: 'http://habrahabr.ru/users/wholeman/'}
+											, "wholeman"
+										)
+										, "→"
+									)
+									, _('dd'
+										, _('dl'
+											, _('dd'
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/12000/#comment_61783'}
+													, "Современный колобок-платформер (игрушка) wanted"
 												)
 												, _('span.total'
 													, "1"
@@ -30306,219 +30509,19 @@ tmpl.habr_big = function(_, p){
 								)
 								, _('dl.air-comment'
 									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/selfchief/'}
-											, "selfchief"
+										, _('a', {href: 'http://habrahabr.ru/users/bondbig/'}
+											, "bondbig"
 										)
 										, "→"
 									)
 									, _('dd'
 										, _('dl'
 											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11950/#comment_61738'}
-													, "Выбор ноутбука для работы/конспектов"
-												)
-												, _('span.total'
-													, "6"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Phoen/'}
-											, "Phoen"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11985/#answer_51670'}
-													, "Лучшая CMS/Wiki для пользовательской документации"
+												, _('a.topic', {href: 'http://habrahabr.ru/qa/11999/#answer_51711'}
+													, "Проблема: Speedtest.net показывает скорость загрузки 143, а торрент качает лишь с 110 Кбит/с"
 												)
 												, _('span.total'
 													, "2"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/micbsv/'}
-											, "micbsv"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/10962/#comment_61735'}
-													, "Стоит ли постить на хабр небольшие статьи по техническим моментам?"
-												)
-												, _('span.total'
-													, "7"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/rPman/'}
-											, "rPman"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11874/#comment_61734'}
-													, "Параметры видеокамеры, чтобы распознать текст на видео"
-												)
-												, _('span.total'
-													, "2"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/NiOS/'}
-											, "NiOS"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11844/#answer_51667'}
-													, "Прошу помощи в настройке sudo"
-												)
-												, _('span.total'
-													, "3"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Thecentury/'}
-											, "Thecentury"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11962/#answer_51666'}
-													, "SSD вместо DVD-ROM\'а в ноутбук HP HDX16"
-												)
-												, _('span.total'
-													, "6"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Next_Alex/'}
-											, "Next_Alex"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11929/#comment_61732'}
-													, "SSD: что важнее последовательные запись/чтение или случайные?"
-												)
-												, _('span.total'
-													, "5"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/SeTeM/'}
-											, "SeTeM"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11974/#comment_61731'}
-													, "Аналог flibusta.net с англоязычной литературой"
-												)
-												, _('span.total'
-													, "1"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/1nd1go/'}
-											, "1nd1go"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11968/#comment_61730'}
-													, "новые Amazon Kindle в Россию"
-												)
-												, _('span.total'
-													, "5"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/soider/'}
-											, "soider"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11522/#comment_61727'}
-													, "Есть ли где база данных телефонов и ноутбуков?"
-												)
-												, _('span.total'
-													, "3"
-												)
-											)
-										)
-									)
-								)
-								, _('dl.air-comment'
-									, _('dt.who'
-										, _('a', {href: 'http://habrahabr.ru/users/Narada/'}
-											, "Narada"
-										)
-										, "→"
-									)
-									, _('dd'
-										, _('dl'
-											, _('dd'
-												, _('a.topic', {href: 'http://habrahabr.ru/qa/11980/#answer_51660'}
-													, "oDesk верификация с Украины"
-												)
-												, _('span.total'
-													, "3"
 												)
 											)
 										)
@@ -30555,7 +30558,7 @@ tmpl.habr_big = function(_, p){
 											)
 											, _('td.value'
 												, _('span'
-													, "361,18"
+													, "354,79"
 												)
 											)
 										)
@@ -30603,7 +30606,7 @@ tmpl.habr_big = function(_, p){
 											)
 											, _('td.value'
 												, _('span'
-													, "190,51"
+													, "190,52"
 												)
 											)
 										)
@@ -30663,7 +30666,7 @@ tmpl.habr_big = function(_, p){
 											)
 											, _('td.value'
 												, _('span'
-													, "117,99"
+													, "118,00"
 												)
 											)
 										)
@@ -30688,81 +30691,81 @@ tmpl.habr_big = function(_, p){
 									, _('div.events'
 										, _('div.event'
 											, _('div.date'
-												, _('div.dayname dayname_6', {title: "сб"})
+												, _('div.dayname dayname_0', {title: "вс"})
 												, _('div.day'
-													, "01"
+													, "02"
 												)
 												, _('div.month'
 													, "октября"
 												)
 											)
 											, _('div.title'
-												, _('a', {href: 'http://habrahabr.ru/events/16/'}
-													, "Фестиваль 404"
+												, _('a', {href: 'http://habrahabr.ru/events/58/'}
+													, "JavaOne 2011 в Сан-Франциско"
 												)
 											)
 										)
 										, _('div.event'
 											, _('div.date'
-												, _('div.dayname dayname_6', {title: "сб"})
+												, _('div.dayname dayname_1', {title: "пн"})
 												, _('div.day'
-													, "01"
+													, "03"
 												)
 												, _('div.month'
 													, "октября"
 												)
 											)
 											, _('div.title'
-												, _('a', {href: 'http://habrahabr.ru/events/147/'}
-													, "Android Hackathon"
+												, _('a', {href: 'http://habrahabr.ru/events/9/'}
+													, "Highload++ 2011"
 												)
 											)
 										)
 										, _('div.event'
 											, _('div.date'
-												, _('div.dayname dayname_6', {title: "сб"})
+												, _('div.dayname dayname_1', {title: "пн"})
 												, _('div.day'
-													, "01"
+													, "03"
 												)
 												, _('div.month'
 													, "октября"
 												)
 											)
 											, _('div.title'
-												, _('a', {href: 'http://habrahabr.ru/events/73/'}
-													, "Мастер-классы по JavaScript, AJAX/COMET, jQuery"
+												, _('a', {href: 'http://habrahabr.ru/events/45/'}
+													, "Деловой Интернет"
 												)
 											)
 										)
 										, _('div.event'
 											, _('div.date'
-												, _('div.dayname dayname_6', {title: "сб"})
+												, _('div.dayname dayname_2', {title: "вт"})
 												, _('div.day'
-													, "01"
+													, "04"
 												)
 												, _('div.month'
 													, "октября"
 												)
 											)
 											, _('div.title'
-												, _('a', {href: 'http://habrahabr.ru/events/146/'}
-													, "1-ый Startup Point в Таганроге"
+												, _('a', {href: 'http://habrahabr.ru/events/62/'}
+													, "2ой Финско-Российский саммит по Mobile Linux"
 												)
 											)
 										)
 										, _('div.event'
 											, _('div.date'
-												, _('div.dayname dayname_6', {title: "сб"})
+												, _('div.dayname dayname_4', {title: "чт"})
 												, _('div.day'
-													, "01"
+													, "06"
 												)
 												, _('div.month'
 													, "октября"
 												)
 											)
 											, _('div.title'
-												, _('a', {href: 'http://habrahabr.ru/events/88/'}
-													, "Экскурсия на мобильную базовую станцию"
+												, _('a', {href: 'http://habrahabr.ru/events/80/'}
+													, "Формула сайта: Как начать свой бизнес в Интернете"
 												)
 											)
 										)
@@ -30785,6 +30788,66 @@ tmpl.habr_big = function(_, p){
 										, "Ссылки ↓"
 									)
 									, _('ul'
+										, _('li'
+											, _('a', {href: 'http://habrahabr.ru/links/go/126888'}
+												, "3G МТС Коннект. Наcтройка ZTE AC5710 модема под Ubuntu"
+											)
+											, _('a.count', {href: 'http://habrahabr.ru/links/126888/#comments'}
+												, "0"
+											)
+											, _('br')
+											, _('small'
+												, "freaksidea.com/linux/show-4-3g..."
+											)
+										)
+										, _('li'
+											, _('a', {href: 'http://habrahabr.ru/links/go/126886'}
+												, "Премиум .МЕ аукционы"
+											)
+											, _('a.count', {href: 'http://habrahabr.ru/links/126886/#comments'}
+												, "0"
+											)
+											, _('br')
+											, _('small'
+												, "links2.me/keywordme2011/"
+											)
+										)
+										, _('li'
+											, _('a', {href: 'http://habrahabr.ru/links/go/126885'}
+												, "Видео: виртуализация и Java — часть первая"
+											)
+											, _('a.count', {href: 'http://habrahabr.ru/links/126885/#comments'}
+												, "0"
+											)
+											, _('br')
+											, _('small'
+												, "www.springsource.org/node/3271"
+											)
+										)
+										, _('li'
+											, _('a', {href: 'http://habrahabr.ru/links/go/126884'}
+												, "Комментарий к заказу в Magento"
+											)
+											, _('a.count', {href: 'http://habrahabr.ru/links/126884/#comments'}
+												, "0"
+											)
+											, _('br')
+											, _('small'
+												, "freaksidea.com/php_and_somethi..."
+											)
+										)
+										, _('li'
+											, _('a', {href: 'http://habrahabr.ru/links/go/126883'}
+												, "Сверхбыстрый браузер Silk от Amazon"
+											)
+											, _('a.count', {href: 'http://habrahabr.ru/links/126883/#comments'}
+												, "0"
+											)
+											, _('br')
+											, _('small'
+												, "it-talk.org/topic2569.html"
+											)
+										)
 										, _('li'
 											, _('a', {href: 'http://habrahabr.ru/links/go/126882'}
 												, "JQuery → Стиль кнопок, ссылок, меню как в Google+"
@@ -30843,66 +30906,6 @@ tmpl.habr_big = function(_, p){
 											, _('br')
 											, _('small'
 												, "www.securelist.com/ru/blog/407..."
-											)
-										)
-										, _('li'
-											, _('a', {href: 'http://habrahabr.ru/links/go/126877'}
-												, "«Яндекс» инвестировал $15 млн в американский поисковик blekko"
-											)
-											, _('a.count', {href: 'http://habrahabr.ru/links/126877/#comments'}
-												, "0"
-											)
-											, _('br')
-											, _('small'
-												, "www.forbes.ru/news/74594-yande..."
-											)
-										)
-										, _('li'
-											, _('a', {href: 'http://habrahabr.ru/links/go/126876'}
-												, "Взлом Symbian-аппаратов Nokia без личного сертификата"
-											)
-											, _('a.count', {href: 'http://habrahabr.ru/links/126876/#comments'}
-												, "0"
-											)
-											, _('br')
-											, _('small'
-												, "allnokia.ru/kcenter/view-207.htm"
-											)
-										)
-										, _('li'
-											, _('a', {href: 'http://habrahabr.ru/links/go/126875'}
-												, "Электронные деньги в РФ окончательно легализованы"
-											)
-											, _('a.count', {href: 'http://habrahabr.ru/links/126875/#comments'}
-												, "0"
-											)
-											, _('br')
-											, _('small'
-												, "top.rbc.ru/economics/30/09/201..."
-											)
-										)
-										, _('li'
-											, _('a', {href: 'http://habrahabr.ru/links/go/126873'}
-												, "Обновление до Rails 3.1"
-											)
-											, _('a.count', {href: 'http://habrahabr.ru/links/126873/#comments'}
-												, "0"
-											)
-											, _('br')
-											, _('small'
-												, "ru.asciicasts.com/episodes/282..."
-											)
-										)
-										, _('li'
-											, _('a', {href: 'http://habrahabr.ru/links/go/126871'}
-												, "One by One или чтение HUGE XML в PHP"
-											)
-											, _('a.count', {href: 'http://habrahabr.ru/links/126871/#comments'}
-												, "0"
-											)
-											, _('br')
-											, _('small'
-												, "freaksidea.com/php_and_somethi..."
 											)
 										)
 									)
@@ -31085,8 +31088,8 @@ tmpl.habr_big = function(_, p){
 				)
 			)
 		)
-		, _('a', {href: 'http://pink.habralab.ru/cgi-bin/href/0?9300&login=Gemius_other&options=FT&referer=http%3A//habrahabr.ru/blogs/popular_science/87751/'}
-			, _('img', {title: "http://", src: 'http://pink.habralab.ru/cgi-bin/banner/0?9300&login=Gemius_other&referer=http%3A//habrahabr.ru/blogs/popular_science/87751/', border: '0', width: 1, height: 1})
+		, _('a', {href: 'http://pink.habralab.ru/cgi-bin/href/0?96672&login=Gemius_other&options=FT&referer=http%3A//habrahabr.ru/blogs/popular_science/87751/'}
+			, _('img', {title: "http://", src: 'http://pink.habralab.ru/cgi-bin/banner/0?96672&login=Gemius_other&referer=http%3A//habrahabr.ru/blogs/popular_science/87751/', border: '0', width: 1, height: 1})
 		)
 		, _('div#help-tip-text'
 			, _('div#help-tip-text-content')
@@ -31094,3 +31097,5 @@ tmpl.habr_big = function(_, p){
 		)
 	)
 };
+
+
