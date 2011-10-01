@@ -14,8 +14,9 @@ var new_master = new function() {
 			if (!uu) return;
 
 			var nn = uu
-			, i, x, id, css, pn, sx, v, p, a
+			, i, x, id, css, pn, sx, v, p, a, c, type
 			, append_index = 1 // с какого аргумента наченаются потомки
+			, params = false // параметры
 			, is_group // флаг что это компонент (nodeType < 0)
 			, u
 			;
@@ -24,7 +25,7 @@ var new_master = new function() {
 
 			if (q && !q.nodeType && typeof q == 'object') {
 				if (q.length === u || !isArray(q)) {
-					p = q;
+					params = q;
 					arguments[1] = u;
 					append_index = 2; // можно начать с 3го элемента
 				};
@@ -39,31 +40,47 @@ var new_master = new function() {
 					break;
 
 				default:
-					switch(typeof nn) {
-						case 'string': break;
-						case 'function':
+					if (typeof nn !== 'string') {
+						if (typeof nn === 'function') {
 							if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
-							nn = new nn(this, pr, false);
-						default:
-							if (!nn || !nn.nodeType) return; // подсунили чтота нето
-							is_group = nn.nodeType < 0; // кешируем флажок что это обьект не HTMLElement
-							break;
+							nn = new nn(master, params, false);
+						};
+
+						if (!nn || !nn.nodeType) {
+							return; // подсунили чтота нето
+						};
+						is_group = nn.nodeType < 0; // кешируем флажок что это обьект не HTMLElement
+						break;
 					};
 
-
 					if (nn.indexOf(':') !== -1) {  // оптимезирую так как : редко встречается
-						
 						i = nn.indexOf(':');
-						nn = create_group(i ? nn.substring(0, i) : 'tmpl'
-							, nn.substr(++i)
-							, p || false // хеш параметров
-							, ns // пространство имен наборов шаблонов
-							, master
-						);
+						if (x = ns[type = nn.substring(0, i) || 'tmpl']) {
+							c = x[v = nn.substr(++i)];
 
-						if (!nn || !nn.nodeType) return  // подсунили чтота нето
-						is_group = nn.nodeType < 0;
-						break;
+							if (typeof c === 'function') {
+								// master.space = x; // сомневаюсь что текстовом шаблонизаторе это нужно
+
+								if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
+								nn = new c(master, params, {name: v, type: type, space: x, uiclass: c});
+
+								// master.space = u;
+
+								if (!nn.nodeType) {
+									return;  // чтота нето. 
+								};
+
+								is_group = nn.nodeType < 0;
+								break;
+							}
+							else {
+								return text('[is not '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
+							};
+						};
+
+						//какой неизвестный элемент. к примеру "svg:path"
+						nn = {nodeType: 1, nodeName: nn};
+						break; 
 					};
 
 					
@@ -89,16 +106,16 @@ var new_master = new function() {
 
 			
 			// set params
-			if (p) {
+			if (params) {
 				if (is_group) {
 					// nn._set_parameters - дает право мастеру изменянять значения через функцию set({key: value, ...})
 					if (nn._set_parameters === true && typeof nn.set == 'function') {
-						nn.set(p);
+						nn.set(params);
 					};
 				} 
 				else {
-					for (x in p) {
-						v = p[x];
+					for (x in params) {
+						v = params[x];
 						if (v === u) continue;
 
 						/*
@@ -124,7 +141,7 @@ var new_master = new function() {
 								break;
 
 
-							case 'text': // у меня сомнение что идеологически это правильно. но он зараза удобен )
+							case 'text': // у меня сомнение что идеологически это правильно. но он зараза удобен ). атрибут text при этом создать не получиться
 								arguments[0] = {nodeType: 3, data: v};
 								append_index = 0;
 								break;
@@ -171,7 +188,7 @@ var new_master = new function() {
 			};
 
 			// return and insert element
-			return p && !is_group ? p.parent || p.after || p.before ? insert(nn, p, is_group) : nn : nn ;
+			return params && !is_group ? params.parent || params.after || params.before ? insert(nn, params, is_group) : nn : nn ;
 		};
 
 		master.global = ns || (ns = {});
@@ -264,39 +281,6 @@ var new_master = new function() {
 		};
 	};
 
-
-
-	function create_group(type, ui, p, global_space, master) {
-		if (!ui) return;
-		
-
-		var ns = type === 'default' ? master.namespace : global_space[type]
-		, x = master.namespace
-		, s, c
-		;
-		
-		if (!ns) return false;
-
-		if (c = ns[ui]) {
-
-			if (typeof c === 'function') {
-				s = {name: ui, type: type, namespace: ns, uiclass: c};
-
-				master.namespace = ns;
-
-				if (!c.prototype.nodeType) c.prototype.nodeType = -1;
-				ui = new c(master, p, s);
-
-				master.namespace = x;
-			}
-			else {
-				return false;
-			};
-
-			return ui;
-		};
-	};
-	
 	var isArray = Array.isArray || new function (o) {
 		var x = Object.prototype.toString, s = x.call([]);
 		return function (o) {
@@ -428,10 +412,12 @@ var objectToHTML = new function(rr) {
 
 	function objectToHTML(nn, buu) {
 		var m, n, x, v, i, l, u
-		, name = nn.nodeName
+		, name = nn.nodeName 
+		//, is_tag = !!name
 		, attrs = ''
 		;
  
+
 		// атрибуты
 		for(i in nn) {
 			x = attr_name[i];
@@ -455,12 +441,15 @@ var objectToHTML = new function(rr) {
 			};
 		};
 
-		if (name === 'br' || name === 'meta') {
-			buu.push('<' + name + attrs + ' />'); // потомков у него нет
-			return 
+		switch(name) {
+			case 'name': case 'meta':
+				buu.push('<' + name + attrs + '/>'); // потомков у него нет
+				return;
 		};
-		
+
 		buu.push('<' + name + attrs + '>');
+
+		
 
 		
 		// потомки
@@ -490,11 +479,27 @@ var objectToHTML = new function(rr) {
 			};
 		};
 		
+
 		buu.push('</'+name+'>');
 	};
 
 	return objectToHTML;
+	
+	return function(nn, buu) {
+		var type = nn.nodeType;
+		if (type < 0) {
+			nn = nn.node;
+			type = nn.nodeType;
+		};
 
+		switch(type) {
+			case 1: // элемент
+				break;
+
+			case 40: // фрагмент
+				break;
+		};
+	};
 };
 
 
