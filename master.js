@@ -3,11 +3,7 @@
 'use strict';
 
 var new_master = new function() {
-	function new_clssNode(n) {
-		var c = function(){};
-		c.prototype.nodeName = n;
-		c.prototype.nodeType = 1;
-	}
+
 	var new_master = function (ns) {
 
 		function master(uu, q) {
