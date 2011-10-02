@@ -6,7 +6,7 @@ var tmpl = global.tmpl; // мастер создал глобальный хеш
 require('./tmpl/tmpl.test_bench.js'); 
 require('./tmpl/tmpl.test_jade.js'); 
 require('./tmpl/tmpl.habr_big.js'); // большой статический шаблон. там где много стической информации мастер не эффективен.
-require('./tmpl/tmpl.test_page.js'); 
+//require('./tmpl/tmpl.test_page.js'); 
 
 
 
