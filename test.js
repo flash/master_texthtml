@@ -1,11 +1,12 @@
 ﻿'use strict';
 
-var master = require('./master.js');
+var master = require('./master_texthtml.js');
 var tmpl = global.tmpl; // мастер создал глобальный хеш для шаблонов
 
 require('./tmpl/tmpl.test_bench.js'); 
 require('./tmpl/tmpl.test_jade.js'); 
 require('./tmpl/tmpl.habr_big.js'); // большой статический шаблон. там где много стической информации мастер не эффективен.
+require('./tmpl/tmpl.test_page.js'); 
 
 
 
@@ -190,16 +191,19 @@ tmpl.testA = function(_, p) {
 	while(x--) {
 		tx = master.render('tmpl:bench', bench_vars);
 		// tx = master.render('tmpl:jade_tiny', false);
+		// tx = master.render(tmpl.jade_tiny, false);
 		// tx = master.render('tmpl:jade_small', false);
 		// tx = master.render('tmpl:jade_locals', { title: 'Title', links: ['Home', 'About Us', 'Store', 'FAQ', 'Contact'] });
 		// tx = master.render('tmpl:habr_big', false); // большой статический шаблон. там где много стической информации мастер не эффективен.
 		// tx = master.render('tmpl:testA', {table: value_for_testA});
+		// tx = master.render('tmpl:test_page', false);
+		
 	};
 
 	T1 = new Date() - T1; 
 
 	//console.log(tx);
-	console.log(tx.lenght > 1000 ? '...'+tx.substr(-800) : tx);
+	console.log(tx.length > 1000 ? '...'+tx.substr(-800) : tx);
 	console.log( 'fps  '+(max/T1*1000) +'  time: '+(T1/max)+'   full time:'+ (T1/1000))
 })()
 
