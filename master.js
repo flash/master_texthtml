@@ -29,8 +29,8 @@ var new_master = new function() {
 
 
 			// create element
-			switch (nn) { // какнибуть нужно попробовать засунуть хеш вместо switch
-				case 'em': case 'blockquote': case 'strong': case 'img': case 'dt': case 'dl': case 'dd': case 'div': case 'li': case 'ul': case 'br': case 'span': case 'a': case 'td': case 'th': case 'tr': case 'abbr': case 'h1': case 'h2': case 'h3': case 'h4': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
+			switch (nn) { 
+				case 'nobr': case 'input': case 'link': case 'em': case 'blockquote': case 'strong': case 'img': case 'dt': case 'dl': case 'dd': case 'div': case 'li': case 'ul': case 'br': case 'span': case 'a': case 'td': case 'th': case 'tr': case 'abbr': case 'h1': case 'h2': case 'h3': case 'h4': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
 					// много "case" может плохо сказаться. но это нужно тестить
 					nn = {nodeType: 1, nodeName: nn};
 					break;
@@ -74,7 +74,7 @@ var new_master = new function() {
 					// ------------------------------
 
 					if (nn.indexOf('#') > 0) {  // оптимезирую так как id редко встречается
-						i = nn.indexOf('#');
+						x = nn.indexOf('#');
 						id = nn.substr(x + 1);
 					} else {
 						x = u;
@@ -87,8 +87,7 @@ var new_master = new function() {
 					};
 
 					if (x) nn = nn.substring(0, x);
-
-					nn = {nodeType: 1, nodeName: nn};
+					nn = id ? {nodeType: 1, nodeName: nn, id: id} : {nodeType: 1, nodeName: nn};
 			};
 
 			
@@ -116,11 +115,6 @@ var new_master = new function() {
 								};
 								break;
 
-							case 'id':
-								if (v) id = v; 
-								break;
-
-
 							// у меня сомнение что идеологически это правильно. но он зараза удобен ). 
 							// атрибут text при этом создать не получиться
 							case 'text': 
@@ -139,11 +133,9 @@ var new_master = new function() {
 					};
 				};
 			};
-			
 
-			if (!is_group) { // params
-				if (css) nn['class'] = css;
-				if (id) nn['id'] = id;
+			if (!is_group && css) {
+				nn['class'] = css;
 			};
 
 			// append child
@@ -193,18 +185,16 @@ var new_master = new function() {
 				x = a.nodeType;
 
 				if (x > 0) {
-					/*
-					if (n = a.parentNode ? a.parentNode.children : false) {
-						n.splice(n.indexOf(a), 1);
+					if (a.parentNode) {
+						if (n = a.parentNode.children) {
+							n[n.indexOf(a)] = u;  // просто отмечу пустым. так будет быстрее
+							//n.splice(n.indexOf(a), 1);
+						};
+					} else {
+						a.parentNode = nn;
 					};
-					*/
-					//a.parentNode = nn;
-					//childs.push(a);
-
-					if (!a.parentNode) {
-						a.parentNode = true;
-						childs.push(a);
-					};
+					
+					childs.push(a);
 					continue;
 				} 
 				else if (x < 0) {
@@ -212,15 +202,17 @@ var new_master = new function() {
 						x = a.nodeType;
 
 						if (x > 0) { // должен быть только элемент
-							/*
-							if (x > 0) {
-								if (n = a.parentNode ? a.parentNode.children : false) {
-									n.splice(n.indexOf(a), 1);
-								};
-							};
-							*/
 
-							//a.parentNode = nn;
+							if (a.parentNode) {
+								if (n = a.parentNode.children) {
+									// у элемента может быть только один родитель
+									n[n.indexOf(a)] = u;
+									//n.splice(n.indexOf(a), 1);
+								};
+							} else {
+								a.parentNode = nn;
+							};
+
 							childs.push(a);
 						};
 					};
@@ -232,7 +224,7 @@ var new_master = new function() {
 
 			switch (typeof a) {
 				case 'number': case 'string':
-					childs.push({nodeType: 3, data: a, parentNode: true});
+					childs.push({nodeType: 3, data: a, parentNode: nn});
 					break;
 
 				case 'object':
@@ -240,8 +232,6 @@ var new_master = new function() {
 						append_nativ(nn, childs, a, 0); //, a.length
 					};
 			};
-			
-			
 		};
 	};
 
@@ -280,6 +270,8 @@ var new_master = new function() {
 	function write(x) {
 		return {nodeType: 42, data: x}
 	};
+	
+	
 
 	// корневой элемент у которого нет тега
 	function doc(x) {
@@ -433,23 +425,23 @@ var objectToHTML = new function(rr) {
 
 		// потомки
 		if (m = nn.children) {
-			for(i = 0, l = m.length; i < l ;) {
-				if (n = m[i++] ) {
-					//if (n.parentNode !== nn) continue;
+			for(i = 0, l = m.length; i < l ;i++) {
+				n = m[i];
 
-					switch(n.nodeType) {
-						case 1:
-							objectToHTML(n, buu);
-							break;
-						
-						case 3: // text
-							buu.push(String(n.data).replace(entities_rg, entities_re) );
-							break;
-						
-						case 42: // как есть _.write('...')
-							buu.push(n.data);
-							break;
-					};
+				if (!n) continue;
+
+				switch(n.nodeType) {
+					case 1:
+						objectToHTML(n, buu);
+						continue;
+					
+					case 3: // text
+						buu.push(String(n.data).replace(entities_rg, entities_re) );
+						continue;
+					
+					case 42: // как есть _.write('...')
+						buu.push(n.data);
+						continue;
 				};
 			};
 		};
@@ -458,27 +450,60 @@ var objectToHTML = new function(rr) {
 		buu.push('</'+name+'>');
 	};
 
-	return objectToHTML;
-	
-	/*
-	return function(nn, buu) {
-		var type = nn.nodeType;
-		if (type < 0) {
-			nn = nn.node;
-			type = nn.nodeType;
-		};
+	//return objectToHTML;
 
-		switch(type) {
-			case 1: // элемент
-				break;
 
-			case 40: // фрагмент
-				break;
+	function turn(m, buu) {
+		var i = 0, l = m.length, n;
+		
+		for(;i < l; i++) {
+			n = m[i];
+
+			if (!x && x !== 0) continue;
+
+			switch(n.nodeType) {
+				case 1:
+					objectToHTML(n, buu);
+					continue;
+				
+				case 3: // text
+					buu.push(String(n.data).replace(entities_rg, entities_re) );
+					continue;
+				
+				case 42: // как есть _.write('...')
+					buu.push(n.data);
+					continue;
+			};
+
+			switch(typeof n) {
+				case 'number': buu.push(n); break;
+				case 'string': 
+					buu.push(n.replace(entities_rg, entities_re) );
+					break;
+
+				case 'object':
+					if (Array.isArray(nn)) {
+						turn(m, buu)
+					};
+			};
 		};
 	};
-	*/
-};
+	
 
+	function toHTML(nn, buu) {
+		if (nn.nodeType === 1) {
+			objectToHTML(nn, buu);
+		}
+		else if (Array.isArray(nn) ) {
+			turn(nn, buu);
+		}
+		else if (nn.nodeType < 0 && nn.node) {
+			toHTML(nn.node, buu);
+		};
+	};
+	
+	return toHTML;
+};
 
 
 
@@ -490,7 +515,7 @@ var objectToHTML = new function(rr) {
 // для других используйте прямые сылки вида _(mytmpl.xxxxx, ...)
 // ненужно создавать иераргию tmpl.xxxx.eeee . это усложняет код.
 // прямой вызов _(tmpl.xxx) шаблона немного быстрее чем через _('tmpl:xxx')
-// но незначительно, а также будет сложнее отслеживать ошибки
+// но незначительно и небудет сообшений об ошибках
 
 
 
@@ -511,7 +536,7 @@ exports.render = function(nn, params) {
 	switch(typeof nn) {
 		case 'function': break;
 		case 'string':
-			if (nn = nn.indexOf('tmpl:') === 0 && tmpl[nn.substr(5)] ) {
+			if (nn = nn.indexOf('tmpl:') === 0 ? tmpl[nn.substr(5)] : false) {
 				break;
 			};
 
