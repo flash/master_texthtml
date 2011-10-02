@@ -270,13 +270,6 @@ var new_master = new function() {
 	function write(x) {
 		return {nodeType: 42, data: x}
 	};
-	
-	
-
-	// корневой элемент у которого нет тега
-	function doc(x) {
-		
-	};
 
 	function insert(nn, p, is_group) {
 		var x, a, ip, ib, pn, i;
@@ -513,9 +506,9 @@ var objectToHTML = new function(rr) {
 
 // global.tmpl единственная область видимости шаблонов
 // для других используйте прямые сылки вида _(mytmpl.xxxxx, ...)
-// ненужно создавать иераргию tmpl.xxxx.eeee . это усложняет код.
+// ненужно создавать иераргию tmpl.xxxx.eeee . это усложняет шаблоны
 // прямой вызов _(tmpl.xxx) шаблона немного быстрее чем через _('tmpl:xxx')
-// но незначительно и небудет сообшений об ошибках
+// но небудет сообшений об ошибках
 
 
 
