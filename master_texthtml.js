@@ -204,8 +204,8 @@ var new_master = new function() {
 							//n.splice(n.indexOf(a), 1);
 						};
 					};
+
 					a.parentNode = nn;
-					
 					childs.push(a);
 					continue;
 				} 
