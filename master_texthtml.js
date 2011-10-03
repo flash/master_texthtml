@@ -32,7 +32,8 @@ var new_master = new function() {
 			switch (nn) { 
 				case 'nobr': case 'input': case 'link': case 'em': case 'blockquote': case 'strong': case 'img': case 'dt': case 'dl': case 'dd': case 'div': case 'li': case 'ul': case 'br': case 'span': case 'a': case 'td': case 'th': case 'tr': case 'abbr': case 'h1': case 'h2': case 'h3': case 'h4': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
 					// много "case" может плохо сказаться. но это нужно тестить
-					nn = {nodeType: 1, nodeName: nn};
+					nn = {nodeType: 1, nodeName: nn, children: false};
+					// зарание создаю свойство. вроде в V8 работает быстрее.
 					break;
 
 				default:
@@ -87,7 +88,11 @@ var new_master = new function() {
 					};
 
 					if (x) nn = nn.substring(0, x);
-					nn = id ? {nodeType: 1, nodeName: nn, id: id} : {nodeType: 1, nodeName: nn};
+					nn = css ? {nodeType: 1, nodeName: nn, children: false, css: u} : {nodeType: 1, nodeName: nn, children: false};
+					
+					// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
+					// возможно будет выигрыш при многократном создании похожих элементов.
+					// но если будут динамические правила то памяти не хватит
 			};
 
 			
@@ -387,12 +392,13 @@ var objectToHTML = new function(rr) {
 		// атрибуты
 		for(i in nn) {
 			x = attr_name[i];
+			if (x === false) continue;
 
 			if (!x) {
-				if (x === false || i.indexOf('_') === 0 ) continue;
+				if (i.indexOf('_') === 0 ) continue;
 				x = i;
 			};
-			
+
 			if (v = nn[i]) {
 				switch(x) {
 					case 'class': case 'id': // эти атрибуты не экранирую потому как обычно в них не помешают недоверенные данные
