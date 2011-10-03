@@ -6,6 +6,8 @@ var new_master = new function() {
 
 	function new_master(tmpl) {
 
+		var hash_elements = {constructor: false, 'nobr': true, 'input': true, 'link': true, 'em': true, 'blockquote': true, 'strong': true, 'img': true, 'dt': true, 'dl': true, 'dd': true, 'div': true, 'li': true, 'ul': true, 'br': true, 'span': true, 'a': true, 'td': true, 'th': true, 'tr': true, 'abbr': true, 'h1': true, 'h2': true, 'h3': true, 'h4': true, 'b': true, 'font': true, 'p': true, 'small': true, 'tbody': true, 'table': true, 'i': true, 'body': true, 'html': true};
+
 		function master(uu, q) {
 			if (!uu) return;
 
@@ -29,71 +31,76 @@ var new_master = new function() {
 
 
 			// create element
-			switch (nn) { 
+
+			if (hash_elements[nn]) {
+				nn = {nodeType: 1, nodeName: nn, children: false};
+			} else do { 
+				/*
 				case 'nobr': case 'input': case 'link': case 'em': case 'blockquote': case 'strong': case 'img': case 'dt': case 'dl': case 'dd': case 'div': case 'li': case 'ul': case 'br': case 'span': case 'a': case 'td': case 'th': case 'tr': case 'abbr': case 'h1': case 'h2': case 'h3': case 'h4': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
 					// много "case" может плохо сказаться. но это нужно тестить
 					nn = {nodeType: 1, nodeName: nn, children: false};
 					// зарание создаю свойство. вроде в V8 работает быстрее.
 					break;
+				*/
 
-				default:
-					if (typeof nn !== 'string') {
-						if (typeof nn === 'function') {
-							if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
-							nn = new nn(master, pm, false);
-						};
+
+				if (typeof nn !== 'string') {
+					if (typeof nn === 'function') {
+						if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
+						nn = new nn(master, pm, false);
+					};
+
+					if (!nn.nodeType) {
+						return text('[ ups!! **** ]') // ошибка в шаблоне. отобразим ее чтоб было видно
+					};
+
+					is_group = nn.nodeType < 0; // кешируем флажок что это обьект не HTMLElement
+					break;
+				};
+
+				if (nn.indexOf('tmpl:') === 0) { // только "tmpl:" это шаблоны все остальное это элементы
+					c = tmpl[nn.substr(5)];
+					if (typeof c === 'function') {
+						if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
+						v = new c(master, pm, false);
 
 						if (!nn.nodeType) {
-							return text('[ ups!! **** ]') // ошибка в шаблоне. отобразим ее чтоб было видно
+							return text('[ ups!! '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
 						};
 
-						is_group = nn.nodeType < 0; // кешируем флажок что это обьект не HTMLElement
+						is_group = v.nodeType < 0;
+						nn = v;
 						break;
-					};
-
-					if (nn.indexOf('tmpl:') === 0) { // только "tmpl:" это шаблоны все остальное это элементы
-						c = tmpl[nn.substr(5)];
-						if (typeof c === 'function') {
-							if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
-							v = new c(master, pm, false);
-
-							if (!nn.nodeType) {
-								return text('[ ups!! '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
-							};
-
-							is_group = v.nodeType < 0;
-							nn = v;
-							break;
-						}
-						else {
-							return text('[ no template '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
-						}
-					};
+					}
+					else {
+						return text('[ no template '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
+					}
+				};
 
 
-					// tag.className#idNode
-					// ------------------------------
+				// tag.className#idNode
+				// ------------------------------
 
-					if (nn.indexOf('#') > 0) {  // оптимезирую так как id редко встречается
-						x = nn.indexOf('#');
-						id = nn.substr(x + 1);
-					} else {
-						x = u;
-					};
+				if (nn.indexOf('#') > 0) {  // оптимезирую так как id редко встречается
+					x = nn.indexOf('#');
+					id = nn.substr(x + 1);
+				} else {
+					x = u;
+				};
 
-					i = nn.indexOf('.'); // класс встречается часто
-					if (i > 0) {
-						css = x ? nn.substring(i + 1, x) : nn.substring(i + 1);
-						x = i;
-					};
+				i = nn.indexOf('.'); // класс встречается часто
+				if (i > 0) {
+					css = x ? nn.substring(i + 1, x) : nn.substring(i + 1);
+					x = i;
+				};
 
-					if (x) nn = nn.substring(0, x);
-					nn = css ? {nodeType: 1, nodeName: nn, children: false, css: u} : {nodeType: 1, nodeName: nn, children: false};
-					
-					// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
-					// возможно будет выигрыш при многократном создании похожих элементов.
-					// но если будут динамические правила то памяти не хватит
-			};
+				if (x) nn = nn.substring(0, x);
+				nn = css ? {nodeType: 1, nodeName: nn, children: false, css: u} : {nodeType: 1, nodeName: nn, children: false};
+				
+				// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
+				// возможно будет выигрыш при многократном создании похожих элементов.
+				// но если будут динамические правила то памяти не хватит
+			} while (false);
 
 			
 			// set params
@@ -167,7 +174,8 @@ var new_master = new function() {
 			};
 
 			// return and insert element
-			return pm && !is_group ? pm.parent || pm.after || pm.before ? insert(nn, pm, is_group) : nn : nn ;
+			return nn;
+			//return pm && !is_group ? pm.parent || pm.after || pm.before ? insert(nn, pm, is_group) : nn : nn ;
 		};
 
 		master.text = text;
@@ -195,9 +203,8 @@ var new_master = new function() {
 							n[n.indexOf(a)] = u;  // просто отмечу пустым. так будет быстрее
 							//n.splice(n.indexOf(a), 1);
 						};
-					} else {
-						a.parentNode = nn;
 					};
+					a.parentNode = nn;
 					
 					childs.push(a);
 					continue;
@@ -214,9 +221,9 @@ var new_master = new function() {
 									n[n.indexOf(a)] = u;
 									//n.splice(n.indexOf(a), 1);
 								};
-							} else {
-								a.parentNode = nn;
 							};
+
+							a.parentNode = nn;
 
 							childs.push(a);
 						};
