@@ -7,6 +7,8 @@ require('./tmpl/tmpl.test_bench.js');
 require('./tmpl/tmpl.test_jade.js'); 
 require('./tmpl/tmpl.habr_big.js'); // большой статический шаблон. там где много стической информации мастер не эффективен.
 require('./tmpl/tmpl.test_page.js'); 
+require('./tmpl/tmpl.test_jinja.js'); 
+
 
 
 
@@ -154,6 +156,15 @@ var bench_vars = {
 
 
 
+var value_for_test_jinja = {
+    page_title: 'mitsuhiko\'s benchmark',
+    table: new function() {
+	var m = [], i = 1000;
+	while (i--) m.push([1,2,3,4,5,6,7,8,9,10]);
+	return m;
+    }
+};
+
 
 var value_for_testTable = new function() {
 	for (var m = [], x = 1000;x--;) m.push([1,2,3,4,5,6,7,8,9,10])
@@ -179,7 +190,10 @@ tmpl.test_table = function(_, p) {
 
 
 ;(function() {
-	var T1, max = 10000, x = max, tx='';
+	// осторожно с тестами . некоторые очень медленные а некоторые очень быстрые
+	// меняйте значение max(число итераций) по обстоятельсятву 
+
+	var T1, max = 100, x = max, tx='';
 
 	var fn = function() {};
 
@@ -189,7 +203,7 @@ tmpl.test_table = function(_, p) {
 	
 	
 	while(x--) {
-		tx = master.render('tmpl:bench', bench_vars);
+		// tx = master.render('tmpl:bench', bench_vars);
 		// tx = master.render('tmpl:jade_tiny', false);
 		// tx = master.render(tmpl.jade_tiny, false);
 		// tx = master.render('tmpl:jade_small', false);
@@ -197,14 +211,16 @@ tmpl.test_table = function(_, p) {
 		// tx = master.render('tmpl:habr_big', false); // большой статический шаблон. там где много стической информации мастер не эффективен.
 		// tx = master.render('tmpl:test_table', {table: value_for_testTable});
 		// tx = master.render('tmpl:test_page', false);
+		 tx = master.render('tmpl:test_jinja', value_for_test_jinja);
+		
 		
 	};
 
 	T1 = new Date() - T1; 
 
-	console.log(tx.substr(0, 800));
-	//console.log(tx.length > 1000 ? '...'+tx.substr(-800) : tx);
-	console.log( 'fps  '+(max/T1*1000) +'  time: '+(T1/max)+'   full time:'+ (T1/1000))
+	//console.log(tx.substr(0, 800));
+	console.log(tx.length > 1000 ? '...'+tx.substr(-800) : tx);
+	console.log( 'fps  '+(max/T1*1000) +'  time: '+(T1/max)+'mc   full time:'+ (T1/1000)+'sec')
 })()
 
 

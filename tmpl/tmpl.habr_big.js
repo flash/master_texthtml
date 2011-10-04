@@ -1,5 +1,7 @@
 ﻿'use strict';
 
+// пример бесполезного флуда на хабре
+
 tmpl.habr_big = function(_ , p, s) {
 	// elements: 19688, show: 17475, text:4615
 	// href: http://habrahabr.ru/blogs/popular_science/87751/

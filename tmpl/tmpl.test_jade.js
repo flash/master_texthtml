@@ -1,4 +1,5 @@
-﻿
+﻿// тесты из jada
+
 tmpl.jade_tiny = function(_, p) {
 	return _('html'
 		, _('body'
@@ -33,6 +34,8 @@ tmpl.jade_small = function(_, p) {
 		)
 	)
 };
+
+// p = { title: 'Title', links: ['Home', 'About Us', 'Store', 'FAQ', 'Contact'] }
 
 tmpl.jade_locals = function(_, p) {
 	return _('html'

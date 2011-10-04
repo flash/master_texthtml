@@ -465,7 +465,7 @@ var objectToHTML = new function(rr) {
 		for(;i < l; i++) {
 			n = m[i];
 
-			if (!x && x !== 0) continue;
+			if (!n && n !== 0) continue;
 
 			switch(n.nodeType) {
 				case 1:
@@ -551,7 +551,7 @@ exports.render = function(nn, params) {
 	};
 
 	if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
-	objectToHTML(new nn(master, params, false), B);
+	objectToHTML(new nn(master, params||false), B);
 
 	return B.join('')
 };

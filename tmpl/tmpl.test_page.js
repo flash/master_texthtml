@@ -1,4 +1,6 @@
-﻿tmpl.test_page = function(_, p){
+﻿// обычная страница выдачи яндекса
+
+tmpl.test_page = function(_, p){
 	// elements: 754, show: 632, text:238
 	// href: http://yandex.ru/yandsearch?text=nodejs&from=fx3&clid=46510&lr=213
 
