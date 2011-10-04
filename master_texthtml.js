@@ -151,17 +151,20 @@ var new_master = new function() {
 			};
 
 			// append child
-			pn = nn;
-
 			if (is_group) {
-				sx = typeof nn.append === 'function'; // у обьекта свой способ добавления элементов
-				if (!sx) pn = nn.box || nn.node;
+				if (typeof nn.append === 'function') {
+					pn = nn.box || nn.node || false;
+				} else {
+					sx = true; // у обьекта свой способ добавления элементов
+				};
+			} else {
+				pn = nn;
 			};
 
 			if (!sx) {
 				if (pn) {// && append_index < arguments.length
-					if (x = pn.children) {
-						append_nativ(pn, x, arguments, append_index)
+					if (pn.children) {
+						append_nativ(pn, pn.children, arguments, append_index)
 					} else {
 						append_nativ(pn, x = [], arguments, append_index); 
 						if (x.length > 0) {
@@ -388,6 +391,14 @@ var objectToHTML = new function(rr) {
 
 	var entities_rg = /[&<>"]/g, entities_cm = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}; // for html entity
 	function entities_re(A) {return entities_cm[A]};
+
+	
+	// в тестах вроде выигрывает такой подход. но на практике получается другой. нужно больше тестировать
+	function entities(S) {
+		return String(S).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+		//return /[&<>"]/.test(S) ? String(S).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : S;
+	};
+
 
 	function objectToHTML(nn, buu) {
 		var m, n, x, v, i, l, u
