@@ -19,19 +19,15 @@ var new_master = new function() {
 			, u
 			;
 
-			arguments[0] = u;
+			//arguments[0] = u;
 
-			if (q && !q.nodeType && typeof q == 'object') {
-				if (q.length === u || !isArray(q)) {
-					pm = q;
-					arguments[1] = u;
-					append_index = 2; // можно начать с 3го элемента
-				};
+			if (typeof q === 'object' && !q.nodeType && (q.length === u || !isArray(q)) ) {
+				pm = q;
+				append_index = 2; // можно начать с 3го элемента
+				//arguments[1] = u; //нет смысла сбрасывать в undf если его не будут брать в расчет
 			};
 
-
 			// create element
-
 			if (hash_elements[nn]) {
 				nn = {nodeType: 1, nodeName: nn, children: false};
 			} else do { 
@@ -95,7 +91,8 @@ var new_master = new function() {
 				};
 
 				if (x) nn = nn.substring(0, x);
-				nn = css ? {nodeType: 1, nodeName: nn, children: false, css: u} : {nodeType: 1, nodeName: nn, children: false};
+
+				nn = {nodeType: 1, nodeName: nn, children: false};
 				
 				// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
 				// возможно будет выигрыш при многократном создании похожих элементов.
@@ -118,7 +115,7 @@ var new_master = new function() {
 
 						switch (x) {
 							case 'css':
-								if (v) { // && typeof v === 'string'
+								if (v) {
 									if (css) {
 										css += ' ' + v;
 									} else {
@@ -130,12 +127,14 @@ var new_master = new function() {
 							// у меня сомнение что идеологически это правильно. но он зараза удобен ). 
 							// атрибут text при этом создать не получиться
 							case 'text': 
-								arguments[0] = {nodeType: 3, data: v};
-								append_index = 0;
+								if (v || v === 0) {
+									arguments[1] = {nodeType: 3, data: v}; // второй аргумет свободен потому как есть параметры
+									append_index = 1;
+								};
 								break;
 
 							// зарезервированные значения
-							case 'parent': case 'before': case 'after': case 'nodeName': case 'nodeType': case 'children':
+							case 'parent': case 'before': case 'after': case 'nodeName': case 'nodeType': case 'children': case 'appendChild':
 								break;
 
 
@@ -152,7 +151,7 @@ var new_master = new function() {
 
 			// append child
 			if (is_group) {
-				if (typeof nn.append === 'function') {
+				if (typeof nn.appendChild === 'function') {
 					pn = nn.box || nn.node || false;
 				} else {
 					sx = true; // у обьекта свой способ добавления элементов
@@ -263,7 +262,7 @@ var new_master = new function() {
 				};
 				*/
 				
-				a.nodeType || !isArray(a) ? nn.append(a) : append_other(a, nn);
+				a.nodeType || !isArray(a) ? nn.appendChild(a) : append_other(a, nn);
 			};
 		};
 	};
@@ -355,7 +354,7 @@ var new_master = new function() {
 // конвектор обьектной модели в HTML
 
 var objectToHTML = new function(rr) {
-	var attr_name = { constructor: false, nodeType: false, nodeName: false, parentNode: false, children: false
+	var attr_name = { constructor: false, nodeType: false, nodeName: false, parentNode: false, children: false, appendChild: false
 		// допустимые атрибуты 
 		, 'title': 'title'
 		, 'style': 'style'
