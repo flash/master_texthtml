@@ -21,7 +21,7 @@ var new_master = new function() {
 
 			//arguments[0] = u;
 
-			if (typeof q === 'object' && !q.nodeType && (q.length === u || !isArray(q)) ) {
+			if (typeof q === 'object' && q !== null && !q.nodeType && (q.length === u || !isArray(q)) ) {
 				pm = q;
 				append_index = 2; // можно начать с 3го элемента
 				//arguments[1] = u; //нет смысла сбрасывать в undf если его не будут брать в расчет
@@ -90,7 +90,9 @@ var new_master = new function() {
 					x = i;
 				};
 
-				if (x) nn = nn.substring(0, x);
+				if (x) {
+					nn = nn.substring(0, x);
+				};
 
 				nn = {nodeType: 1, nodeName: nn, children: false};
 				
@@ -216,7 +218,6 @@ var new_master = new function() {
 						x = a.nodeType;
 
 						if (x > 0) { // должен быть только элемент
-
 							if (a.parentNode) {
 								if (n = a.parentNode.children) {
 									// у элемента может быть только один родитель
@@ -545,9 +546,11 @@ var master = new_master(tmpl);
 exports.master = master; // конструктор
 exports.toHTML = objectToHTML; // конвектор обьектной модели в тект HTML 
 
+
 // html рендринг
 exports.render = function(nn, params) {
-	var B = [], s, x;
+	var B = [];
+	//var B = {push: function(x) {s += x}}, s = '', x; // в ноде строки быстрее соберать чем через массив. но не всегда. 
 
 	switch(typeof nn) {
 		case 'function': break;
@@ -564,6 +567,5 @@ exports.render = function(nn, params) {
 	objectToHTML(new nn(master, params||false), B);
 
 	return B.join('')
+	//return s;
 };
-
-
