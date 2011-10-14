@@ -55,7 +55,7 @@ var new_master = new function() {
 				};
 
 				if (nn.indexOf('tmpl:') === 0) { // только "tmpl:" это шаблоны все остальное это элементы
-					c = tmpl[nn.substr(5)];
+					c = tmpl[nn.substring(5)];
 					if (typeof c === 'function') {
 						if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
 						v = new c(master, pm, false);
@@ -79,7 +79,7 @@ var new_master = new function() {
 
 				if (nn.indexOf('#') > 0) {  // оптимезирую так как id редко встречается
 					x = nn.indexOf('#');
-					id = nn.substr(x + 1);
+					id = nn.substring(x + 1);
 				} else {
 					x = u;
 				};
@@ -90,12 +90,15 @@ var new_master = new function() {
 					x = i;
 				};
 
+				//if (x) nn = nn.substring(0, x);
+				//nn = {nodeType: 1, nodeName: nn, children: false};
+				
 				if (x) {
-					nn = nn.substring(0, x);
+					nn = {nodeType: 1, nodeName: nn.substring(0, x), children: false};
+				} else {
+					nn = {nodeType: 1, nodeName:  nn, children: false};
 				};
 
-				nn = {nodeType: 1, nodeName: nn, children: false};
-				
 				// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
 				// возможно будет выигрыш при многократном создании похожих элементов.
 				// но если будут динамические правила то памяти не хватит
@@ -116,7 +119,7 @@ var new_master = new function() {
 						if (v === u) continue;
 
 						switch (x) {
-							case 'css':
+							case 'css': case 'class':
 								if (v) {
 									if (css) {
 										css += ' ' + v;
@@ -124,7 +127,7 @@ var new_master = new function() {
 										css = v;
 									};
 								};
-								break;
+								break; 
 
 							// у меня сомнение что идеологически это правильно. но он зараза удобен ). 
 							// атрибут text при этом создать не получиться
@@ -400,6 +403,7 @@ var objectToHTML = new function(rr) {
 	};
 
 
+	
 	function objectToHTML(nn, buu) {
 		var m, n, x, v, i, l, u
 		, name = nn.nodeName 
@@ -412,7 +416,7 @@ var objectToHTML = new function(rr) {
 			x = attr_name[i];
 			if (x === false) continue;
 
-			if (!x) {
+			if (x === u) {
 				if (i.indexOf('_') === 0 ) continue;
 				x = i;
 			};
@@ -437,11 +441,13 @@ var objectToHTML = new function(rr) {
 				return;
 		};
 
-		buu.push('<' + name + attrs + '>');
+		
 
 
 		// потомки
 		if (m = nn.children) {
+			buu.push('<' + name + attrs + '>');
+
 			for(i = 0, l = m.length; i < l ;i++) {
 				n = m[i];
 
@@ -461,10 +467,11 @@ var objectToHTML = new function(rr) {
 						continue;
 				};
 			};
+			
+			buu.push('</' + name + '>');
+		} else {
+			buu.push('<' + name + attrs + '></' + name + '>');
 		};
-		
-
-		buu.push('</'+name+'>');
 	};
 
 	//return objectToHTML;
@@ -548,9 +555,13 @@ exports.toHTML = objectToHTML; // конвектор обьектной моде
 
 
 // html рендринг
+var BF = new Buffer(1024*1024*10);
+
 exports.render = function(nn, params) {
 	var B = [];
 	//var B = {push: function(x) {s += x}}, s = '', x; // в ноде строки быстрее соберать чем через массив. но не всегда. 
+	//var s = 0, B = {push: function(x) {s += BF.write(x, s, 'binary') }}; // в ноде строки быстрее соберать чем через массив. но не всегда. 
+	
 
 	switch(typeof nn) {
 		case 'function': break;
@@ -568,4 +579,5 @@ exports.render = function(nn, params) {
 
 	return B.join('')
 	//return s;
+	//return BF.toString('binary',0, s);
 };
