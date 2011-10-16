@@ -546,10 +546,11 @@ exports.toHTML = objectToHTML; // конвектор обьектной моде
 
 
 // html рендринг
-var BF = new Buffer(1024*1024*10);
 
+// var BF = new Buffer(1024*1024*10);
 exports.render = function(nn, params) {
 	var B = [];
+
 	//var B = {push: function(x) {s += x}}, s = '', x; // в ноде строки быстрее соберать чем через массив. но не всегда. 
 	//var s = 0, B = {push: function(x) {s += BF.write(x, s, 'binary') }}; // в ноде строки быстрее соберать чем через массив. но не всегда. 
 	
@@ -569,6 +570,7 @@ exports.render = function(nn, params) {
 	objectToHTML(new nn(master, params||false), B);
 
 	return B.join('')
-	//return s;
-	//return BF.toString('binary',0, s);
+
+	//return s; // в некоторых тестах заметен небольшой прирост, но в других наоборот деградация
+	//return BF.toString('binary',0, s); // toString работает медленно
 };
