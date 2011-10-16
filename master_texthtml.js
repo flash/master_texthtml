@@ -6,7 +6,7 @@ var new_master = new function() {
 
 	function new_master(tmpl) {
 
-		var hash_elements = {constructor: false, 'nobr': true, 'input': true, 'link': true, 'em': true, 'blockquote': true, 'strong': true, 'img': true, 'dt': true, 'dl': true, 'dd': true, 'div': true, 'li': true, 'ul': true, 'br': true, 'span': true, 'a': true, 'td': true, 'th': true, 'tr': true, 'abbr': true, 'h1': true, 'h2': true, 'h3': true, 'h4': true, 'b': true, 'font': true, 'p': true, 'small': true, 'tbody': true, 'table': true, 'i': true, 'body': true, 'html': true};
+		var hash_elements = {constructor: false, 'hr': true, 'meta': true, 'head': true, 'nobr': true, 'input': true, 'link': true, 'em': true, 'blockquote': true, 'strong': true, 'img': true, 'dt': true, 'dl': true, 'dd': true, 'div': true, 'li': true, 'ul': true, 'br': true, 'span': true, 'a': true, 'td': true, 'th': true, 'tr': true, 'abbr': true, 'h1': true, 'h2': true, 'h3': true, 'h4': true, 'b': true, 'font': true, 'p': true, 'small': true, 'tbody': true, 'table': true, 'i': true, 'body': true, 'html': true};
 
 		function master(uu, q) {
 			if (!uu) return;
@@ -73,6 +73,7 @@ var new_master = new function() {
 					} else {
 						nn = {nodeType: 1, nodeName:  nn, children: false};
 					};
+					
 
 					// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
 					// возможно будет выигрыш при многократном создании похожих элементов.
