@@ -27,34 +27,13 @@ var new_master = new function() {
 				//arguments[1] = u; //нет смысла сбрасывать в undf если его не будут брать в расчет
 			};
 
-			// create element
-			if (hash_elements[nn]) {
-				nn = {nodeType: 1, nodeName: nn, children: false};
-			} else do { 
-				/*
-				case 'nobr': case 'input': case 'link': case 'em': case 'blockquote': case 'strong': case 'img': case 'dt': case 'dl': case 'dd': case 'div': case 'li': case 'ul': case 'br': case 'span': case 'a': case 'td': case 'th': case 'tr': case 'abbr': case 'h1': case 'h2': case 'h3': case 'h4': case 'b': case 'font': case 'p': case 'small': case 'tbody': case 'table': case 'i': case 'body': case 'html':
-					// много "case" может плохо сказаться. но это нужно тестить
+			type = typeof nn;
+
+			if (type === 'string') { // если строка то требуется создать новый обьект
+				if (hash_elements[nn]) {
 					nn = {nodeType: 1, nodeName: nn, children: false};
-					// зарание создаю свойство. вроде в V8 работает быстрее.
-					break;
-				*/
-
-
-				if (typeof nn !== 'string') {
-					if (typeof nn === 'function') {
-						if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
-						nn = new nn(master, pm, false);
-					};
-
-					if (!nn.nodeType) {
-						return text('[ ups!! **** ]') // ошибка в шаблоне. отобразим ее чтоб было видно
-					};
-
-					is_group = nn.nodeType < 0; // кешируем флажок что это обьект не HTMLElement
-					break;
-				};
-
-				if (nn.indexOf('tmpl:') === 0) { // только "tmpl:" это шаблоны все остальное это элементы
+				} 
+				else if (nn.indexOf('tmpl:') === 0) {
 					c = tmpl[nn.substring(5)];
 					if (typeof c === 'function') {
 						if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
@@ -66,45 +45,55 @@ var new_master = new function() {
 
 						is_group = v.nodeType < 0;
 						nn = v;
-						break;
-					}
-					else {
+						// break;
+					} else {
 						return text('[ no template '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
-					}
+					};
+
+				} else { 
+					// tag.className#idNode
+					// ------------------------------
+
+					if (nn.indexOf('#') > 0) {  // оптимезирую так как id редко встречается
+						x = nn.indexOf('#');
+						id = nn.substring(x + 1);
+					} else {
+						x = u;
+					};
+
+					i = nn.indexOf('.'); // класс встречается часто
+					if (i !== -1) {
+						css = x ? nn.substring(i + 1, x) : nn.substring(i + 1);
+						x = i;
+					};
+
+					if (x) {
+						nn = {nodeType: 1, nodeName: nn.substring(0, x), children: false};
+						if (id) nn.id = id;
+					} else {
+						nn = {nodeType: 1, nodeName:  nn, children: false};
+					};
+
+					// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
+					// возможно будет выигрыш при многократном создании похожих элементов.
+					// но если будут динамические правила то памяти не хватит
 				};
 
+			} else { // это значит обьект или конструктор
 
-				// tag.className#idNode
-				// ------------------------------
-
-				if (nn.indexOf('#') > 0) {  // оптимезирую так как id редко встречается
-					x = nn.indexOf('#');
-					id = nn.substring(x + 1);
-				} else {
-					x = u;
+				if (type === 'function') {
+					if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
+					nn = new nn(master, pm, false);
 				};
 
-				i = nn.indexOf('.'); // класс встречается часто
-				if (i > 0) {
-					css = x ? nn.substring(i + 1, x) : nn.substring(i + 1);
-					x = i;
+				if (!nn.nodeType) {
+					return text('[ ups!! **** ]') // ошибка в шаблоне. отобразим ее чтоб было видно
 				};
 
-				//if (x) nn = nn.substring(0, x);
-				//nn = {nodeType: 1, nodeName: nn, children: false};
-				
-				if (x) {
-					nn = {nodeType: 1, nodeName: nn.substring(0, x), children: false};
-				} else {
-					nn = {nodeType: 1, nodeName:  nn, children: false};
-				};
+				is_group = nn.nodeType < 0; // кешируем флажок что это обьект не HTMLElement
+			};
 
-				// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
-				// возможно будет выигрыш при многократном создании похожих элементов.
-				// но если будут динамические правила то памяти не хватит
-			} while (false);
 
-			
 			// set params
 			if (pm) {
 				if (is_group) {
@@ -116,7 +105,7 @@ var new_master = new function() {
 				else {
 					for (x in pm) {
 						v = pm[x];
-						if (v === u) continue;
+						// if (v === u) continue;
 
 						switch (x) {
 							case 'css': case 'class':
@@ -131,7 +120,7 @@ var new_master = new function() {
 
 							// у меня сомнение что идеологически это правильно. но он зараза удобен ). 
 							// атрибут text при этом создать не получиться
-							case 'text': 
+							case 'text':
 								if (v || v === 0) {
 									arguments[1] = {nodeType: 3, data: v}; // второй аргумет свободен потому как есть параметры
 									append_index = 1;
@@ -142,9 +131,10 @@ var new_master = new function() {
 							case 'parent': case 'before': case 'after': case 'nodeName': case 'nodeType': case 'children': case 'appendChild':
 								break;
 
-
 							default:
-								nn[x] = v;
+								if (v !== u) { 
+									nn[x] = v;
+								};
 						};
 					};
 				};
@@ -153,6 +143,7 @@ var new_master = new function() {
 			if (!is_group && css) {
 				nn['class'] = css;
 			};
+
 
 			// append child
 			if (is_group) {
@@ -199,7 +190,7 @@ var new_master = new function() {
 		while(i < l) {
 			a = m[i++];
 
-			if (a === u) continue; 
+			if (a === u || a === false) continue; 
 
 			if (a) {
 				x = a.nodeType;
@@ -212,7 +203,8 @@ var new_master = new function() {
 						};
 					};
 
-					a.parentNode = nn;
+					a.parentNode = nn; // зашита от зацикливания
+
 					childs.push(a);
 					continue;
 				} 
@@ -238,10 +230,9 @@ var new_master = new function() {
 				};
 			};
 
-
-
 			switch (typeof a) {
-				case 'number': case 'string':
+				case 'string': if (a === '') break;
+				case 'number': 
 					childs.push({nodeType: 3, data: a, parentNode: nn});
 					break;
 
@@ -392,8 +383,8 @@ var objectToHTML = new function(rr) {
 	};
 
 
-	var entities_rg = /[&<>"]/g, entities_cm = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}; // for html entity
-	function entities_re(A) {return entities_cm[A]};
+	var entities_rg = /["&<>]/g, ecm = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}; // for html entity
+	function entities_re(a) {return ecm[a]};
 
 	
 	// в тестах вроде выигрывает такой подход. но на практике получается другой. нужно больше тестировать
