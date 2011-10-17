@@ -12,7 +12,7 @@ var new_master = new function() {
 			if (!uu) return;
 
 			var nn = uu
-			, i, x, id, css, pn, sx, v, p, a, c, type
+			, i, x, id, css, pn, sx, v, p, a, c
 			, append_index = 1 // с какого аргумента наченаются потомки
 			, pm = false // параметры
 			, is_group // флаг что это компонент (nodeType < 0)
@@ -27,9 +27,7 @@ var new_master = new function() {
 				//arguments[1] = u; //нет смысла сбрасывать в undf если его не будут брать в расчет
 			};
 
-			type = typeof nn;
-
-			if (type === 'string') { // если строка то требуется создать новый обьект
+			if (typeof nn === 'string') { // если строка то требуется создать новый обьект
 				if (hash_elements[nn]) {
 					nn = {nodeType: 1, nodeName: nn, children: false};
 				} 
@@ -81,8 +79,7 @@ var new_master = new function() {
 				};
 
 			} else { // это значит обьект или конструктор
-
-				if (type === 'function') {
+				if (typeof nn === 'function') {
 					if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
 					nn = new nn(master, pm, false);
 				};
