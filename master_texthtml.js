@@ -6,13 +6,13 @@ var new_master = new function() {
 
 	function new_master(tmpl) {
 
-		var hash_elements = {constructor: false, 'hr': true, 'meta': true, 'head': true, 'nobr': true, 'input': true, 'link': true, 'em': true, 'blockquote': true, 'strong': true, 'img': true, 'dt': true, 'dl': true, 'dd': true, 'div': true, 'li': true, 'ul': true, 'br': true, 'span': true, 'a': true, 'td': true, 'th': true, 'tr': true, 'abbr': true, 'h1': true, 'h2': true, 'h3': true, 'h4': true, 'b': true, 'font': true, 'p': true, 'small': true, 'tbody': true, 'table': true, 'i': true, 'body': true, 'html': true};
+		var hash_elements = {constructor: false, 'td': true, 'tr': true, 'a': true, 'span': true, 'hr': true, 'meta': true, 'head': true, 'nobr': true, 'input': true, 'link': true, 'em': true, 'blockquote': true, 'strong': true, 'img': true, 'dt': true, 'dl': true, 'dd': true, 'div': true, 'li': true, 'ul': true, 'br': true, 'th': true, 'abbr': true, 'h1': true, 'h2': true, 'h3': true, 'h4': true, 'b': true, 'font': true, 'p': true, 'small': true, 'tbody': true, 'table': true, 'i': true, 'body': true, 'html': true};
 
 		function master(uu, q) {
 			if (!uu) return;
 
 			var nn = uu
-			, i, x, id, css, pn, sx, v, p, a, c
+			, i, x, css, pn, sx, v, p, a, c //, id
 			, append_index = 1 // с какого аргумента наченаются потомки
 			, pm = false // параметры
 			, is_group // флаг что это компонент (nodeType < 0)
@@ -21,7 +21,7 @@ var new_master = new function() {
 
 			//arguments[0] = u;
 
-			if (typeof q === 'object' && q !== null && !q.nodeType && (q.length === u || !isArray(q)) ) {
+			if (q !== null && typeof q === 'object' && !q.nodeType && (q.length === u || !isArray(q)) ) {
 				pm = q;
 				append_index = 2; // можно начать с 3го элемента
 				//arguments[1] = u; //нет смысла сбрасывать в undf если его не будут брать в расчет
@@ -29,7 +29,7 @@ var new_master = new function() {
 
 			if (typeof nn === 'string') { // если строка то требуется создать новый обьект
 				if (hash_elements[nn]) {
-					nn = {nodeType: 1, nodeName: nn, children: false};
+					nn = {nodeType: 1, nodeName: nn};
 				} 
 				else if (nn.indexOf('tmpl:') === 0) {
 					c = tmpl[nn.substring(5)];
@@ -52,29 +52,27 @@ var new_master = new function() {
 					// tag.className#idNode
 					// ------------------------------
 
-					if (nn.indexOf('#') > 0) {  // оптимезирую так как id редко встречается
+					if (nn.indexOf('#') !== -1) {
 						x = nn.indexOf('#');
-						id = nn.substring(x + 1);
+						i = nn.indexOf('.');
+
+						if (css = i !== -1) {
+							nn = {nodeType: 1, nodeName: nn.substring(0, i), 'class': nn.substring(i + 1, x), id: nn.substring(x + 1)};
+						} else {
+							nn = {nodeType: 1, nodeName: nn.substring(0, i), id: nn.substring(x + 1) };
+						};
 					} else {
-						x = u;
+						i = nn.indexOf('.'); 
+						if (css = i !== -1) {
+							nn = {nodeType: 1, nodeName: nn.substring(0, i), 'class': nn.substring(i + 1)};
+						} else {
+							nn = {nodeType: 1, nodeName: nn};
+						};
 					};
 
-					i = nn.indexOf('.'); // класс встречается часто
-					if (i !== -1) {
-						css = x ? nn.substring(i + 1, x) : nn.substring(i + 1);
-						x = i;
-					};
-
-					if (x) {
-						nn = {nodeType: 1, nodeName: nn.substring(0, x), children: false};
-						if (id) nn.id = id;
-					} else {
-						nn = {nodeType: 1, nodeName:  nn, children: false};
-					};
-					
 
 					// можно попробовать кешировать определенные правила чтобы создавать элементы через конструктор
-					// возможно будет выигрыш при многократном создании похожих элементов.
+					// возможно будет выигрыш при многократном создании похожих элементов. а возможно нет
 					// но если будут динамические правила то памяти не хватит
 				};
 
@@ -109,9 +107,9 @@ var new_master = new function() {
 							case 'css': case 'class':
 								if (v) {
 									if (css) {
-										css += ' ' + v;
+										nn['class'] += ' ' + v;
 									} else {
-										css = v;
+										nn['class'] = v;
 									};
 								};
 								break; 
@@ -138,10 +136,6 @@ var new_master = new function() {
 				};
 			};
 
-			if (!is_group && css) {
-				nn['class'] = css;
-			};
-
 
 			// append child
 			if (is_group) {
@@ -154,19 +148,18 @@ var new_master = new function() {
 				pn = nn;
 			};
 
-			if (!sx) {
-				if (pn) {// && append_index < arguments.length
-					if (pn.children) {
-						append_nativ(pn, pn.children, arguments, append_index)
-					} else {
-						append_nativ(pn, x = [], arguments, append_index); 
-						if (x.length > 0) {
-							pn.children = x;
-						};
+			if (sx) {
+				append_other(nn, arguments)
+			} 
+			else if (pn) {
+				if (pn.children) {
+					append_nativ(pn, pn.children, arguments, append_index)
+				} else {
+					append_nativ(pn, x = [], arguments, append_index); 
+					if (x.length > 0) {
+						pn.children = x;
 					};
 				};
-			} else {
-				append_other(nn, arguments)
 			};
 
 			// return and insert element
@@ -317,6 +310,7 @@ var new_master = new function() {
 		, v, u
 		;
 
+		// бегаю от a[0] до a[a.length] . проверку на наличие индекса не делаю ради производительности
 
 		if (0 < l) {
 			v = func(a[0], e, this);
