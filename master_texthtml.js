@@ -27,11 +27,12 @@ var new_master = new function() {
 				//arguments[1] = u; //нет смысла сбрасывать в undf если его не будут брать в расчет
 			};
 
-			if (typeof nn === 'string') { // если строка то требуется создать новый обьект
+			if (typeof nn === 'string') { // если строка, то требуется создать новый обьект
 				if (hash_elements[nn]) {
 					nn = {nodeType: 1, nodeName: nn};
 				} 
-				else if (nn.indexOf('tmpl:') === 0) {
+				else if (nn.length > 5 && nn[4] === ':' && nn[0] === 't' && nn[1] === 'm' && nn[2] === 'p' && nn[3] === 'l') { // по тестам вроде есть прирост
+				// else if (nn.indexOf('tmpl:') === 0) {
 					c = tmpl[nn.substring(5)];
 					if (typeof c === 'function') {
 						if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
@@ -59,7 +60,7 @@ var new_master = new function() {
 						if (css = i !== -1) {
 							nn = {nodeType: 1, nodeName: nn.substring(0, i), 'class': nn.substring(i + 1, x), id: nn.substring(x + 1)};
 						} else {
-							nn = {nodeType: 1, nodeName: nn.substring(0, i), id: nn.substring(x + 1) };
+							nn = {nodeType: 1, nodeName: nn.substring(0, x), id: nn.substring(x + 1) };
 						};
 					} else {
 						i = nn.indexOf('.'); 
@@ -76,7 +77,7 @@ var new_master = new function() {
 					// но если будут динамические правила то памяти не хватит
 				};
 
-			} else { // это значит обьект или конструктор
+			} else { // значит обьект или конструктор
 				if (typeof nn === 'function') {
 					if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
 					nn = new nn(master, pm, false);
@@ -124,7 +125,7 @@ var new_master = new function() {
 								break;
 
 							// зарезервированные значения
-							case 'parent': case 'before': case 'after': case 'nodeName': case 'nodeType': case 'children': case 'appendChild':
+							case 'nodeName': case 'nodeType': case 'childNodes': case 'appendChild': //case 'parent': case 'before': case 'after': 
 								break;
 
 							default:
@@ -152,12 +153,12 @@ var new_master = new function() {
 				append_other(nn, arguments)
 			} 
 			else if (pn) {
-				if (pn.children) {
-					append_nativ(pn, pn.children, arguments, append_index)
+				if (pn.childNodes) {
+					append_nativ(pn, pn.childNodes, arguments, append_index)
 				} else {
 					append_nativ(pn, x = [], arguments, append_index); 
 					if (x.length > 0) {
-						pn.children = x;
+						pn.childNodes = x;
 					};
 				};
 			};
@@ -174,63 +175,62 @@ var new_master = new function() {
 		return master;
 	};
 
-	function append_nativ(nn, childs, m, ix) {
-		//var i = start_index || 0, l = m.length, a, x, n, u;
-		var i = ix, l = m.length, a, x, n, u; //, l = len || m.length
+	function append_nativ(nn, childs, m, i) {
+		var l = m.length, a, n, u; //, i = ix, x, l = len || m.length 
 
 		while(i < l) {
 			a = m[i++];
 
-			if (a === u || a === false) continue; 
-
-			if (a) {
-				x = a.nodeType;
-
-				if (x > 0) {
-					if (a.parentNode) {
-						if (n = a.parentNode.children) {
-							n[n.indexOf(a)] = u;  // просто отмечу пустым. так будет быстрее
-							//n.splice(n.indexOf(a), 1);
-						};
-					};
-
-					a.parentNode = nn; // зашита от зацикливания
-
-					childs.push(a);
-					continue;
-				} 
-				else if (x < 0) {
-					if (a = a.node) {
-						x = a.nodeType;
-
-						if (x > 0) { // должен быть только элемент
-							if (a.parentNode) {
-								if (n = a.parentNode.children) {
-									// у элемента может быть только один родитель
-									n[n.indexOf(a)] = u;
-									//n.splice(n.indexOf(a), 1);
-								};
-							};
-
-							a.parentNode = nn;
-
-							childs.push(a);
-						};
-					};
-					continue;
+			if (!a) {
+				if (a === 0) {
+					childs.push({nodeType: 3, data: a});
 				};
+				continue;
 			};
 
-			switch (typeof a) {
-				case 'string': if (a === '') break;
-				case 'number': 
-					childs.push({nodeType: 3, data: a, parentNode: nn});
-					break;
 
-				case 'object':
-					if (isArray(a)) {
-						append_nativ(nn, childs, a, 0); //, a.length
+			if (a.nodeType > 0) {
+				if (a.parentNode) {
+					if (n = a.parentNode.childNodes) {
+						n[n.indexOf(a)] = u;  // просто отмечу пустым. так будет быстрее
+						//n.splice(n.indexOf(a), 1);
 					};
+				};
+
+				a.parentNode = nn; // зашита от зацикливания
+
+				childs.push(a);
+				continue;
+			};
+
+			if (a.nodeType < 0) {
+				if (a = a.node) {
+					// x = a.nodeType;
+					if (a.nodeType > 0) { // должен быть только элемент
+						if (a.parentNode) {
+							if (n = a.parentNode.childNodes) {
+								// у элемента может быть только один родитель
+								n[n.indexOf(a)] = u;
+								//n.splice(n.indexOf(a), 1);
+							};
+						};
+
+						a.parentNode = nn;
+
+						childs.push(a);
+					};
+				};
+				continue;
+			};
+
+
+			if (typeof a === 'object') {
+				if (isArray(a)) {
+					append_nativ(nn, childs, a, 0); //, a.length
+				};
+			}
+			else if (typeof a === 'string' || typeof a === 'number' ) {
+				childs.push({nodeType: 3, data: a});
 			};
 		};
 	};
@@ -240,16 +240,23 @@ var new_master = new function() {
 
 		while (i < l) {
 			a = m[i++];
-			if (a || a !== '' || a !== 0) {
-				/*
-				switch(typeof a){
-					case 'string':case: 'number':
-						a = {nodeType: 3, data: a}
-				};
-				*/
-				
-				a.nodeType || !isArray(a) ? nn.appendChild(a) : append_other(a, nn);
+			if (!a && a !== 0) continue;
+
+			if (a.nodeType) {
+				nn.appendChild(a);
+				continue;
 			};
+
+			switch(typeof a){
+				case 'string': case 'number':
+					nn.appendChild({nodeType: 3, data: a});
+					break;
+
+				case 'object':
+					if (isArray(a)) append_other(a, nn);
+					break;
+			};
+
 		};
 	};
 
@@ -270,6 +277,8 @@ var new_master = new function() {
 	function write(x) {
 		return {nodeType: 42, data: x}
 	};
+
+
 
 	function insert(nn, p, is_group) {
 		var x, a, ip, ib, pn, i;
@@ -341,7 +350,7 @@ var new_master = new function() {
 // конвектор обьектной модели в HTML
 
 var objectToHTML = new function(rr) {
-	var attr_name = { constructor: false, nodeType: false, nodeName: false, parentNode: false, children: false, appendChild: false
+	var attr_name = { constructor: 'constructor', nodeType: false, nodeName: false, parentNode: false, childNodes: false, appendChild: false
 		// допустимые атрибуты 
 		, 'title': 'title'
 		, 'style': 'style'
@@ -372,6 +381,9 @@ var objectToHTML = new function(rr) {
 		, 'cellspacing': 'cellspacing'
 		, 'bgcolor': 'bgcolor'
 		, 'colspan': 'colspan'
+		
+		, 'method': 'method'
+		, 'action': 'action'
 	};
 
 
@@ -392,15 +404,15 @@ var objectToHTML = new function(rr) {
 		, name = nn.nodeName 
 		, attrs = ''
 		;
- 
 
-		// атрибуты
+		// атрибуты 
 		for(i in nn) {
 			x = attr_name[i];
 			if (x === false) continue;
 
 			if (x === u) {
-				if (i.indexOf('_') === 0 ) continue;
+				// if (i.indexOf('_') === 0 ) continue;
+				if (i[0] === '_' ) continue;
 				x = i;
 			};
 
@@ -418,6 +430,7 @@ var objectToHTML = new function(rr) {
 			};
 		};
 
+
 		switch(name) {
 			case 'meta': case 'br': 
 				buu.push('<' + name + attrs + '/>'); // потомков у него нет
@@ -428,13 +441,30 @@ var objectToHTML = new function(rr) {
 
 
 		// потомки
-		if (m = nn.children) {
+		if (m = nn.childNodes) {
 			buu.push('<' + name + attrs + '>');
 
 			for(i = 0, l = m.length; i < l ;i++) {
 				n = m[i];
 
 				if (!n) continue;
+
+				/*
+				if (n.nodeType === 1) {
+						objectToHTML(n, buu);
+						continue;
+				};
+
+				if (n.nodeType === 3) {
+						buu.push(String(n.data).replace(entities_rg, entities_re) );
+						continue;
+				};
+				
+				if (n.nodeType === 42) {
+						buu.push(n.data);
+						continue;
+				};
+				*/
 
 				switch(n.nodeType) {
 					case 1:
@@ -544,19 +574,22 @@ exports.render = function(nn, params) {
 	var B = [];
 
 	//var B = {push: function(x) {s += x}}, s = '', x; // в ноде строки быстрее соберать чем через массив. но не всегда. 
-	//var s = 0, B = {push: function(x) {s += BF.write(x, s, 'binary') }}; // в ноде строки быстрее соберать чем через массив. но не всегда. 
+	//var s = 0, B = {push: function(x) {s += BF.write(x, s, 'binary') }}; // через буфер медленно
 	
 
-	switch(typeof nn) {
-		case 'function': break;
-		case 'string':
-			if (nn = nn.indexOf('tmpl:') === 0 ? tmpl[nn.substr(5)] : false) {
-				break;
-			};
-
-		default:
+	if (typeof nn === 'string') {
+		// if (nn.indexOf('tmpl:') === 0) {
+		if (nn[0] === 't' && nn[1] === 'm' && nn[2] === 'p' && nn[3] === 'l' && nn[4] === ':') {
+			nn = tmpl[nn.substr(5)];
+		} else {
 			return;
+		};
 	};
+
+	if (typeof nn !== 'function') {
+		return;
+	};
+
 
 	if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
 	objectToHTML(new nn(master, params||false), B);
@@ -564,5 +597,7 @@ exports.render = function(nn, params) {
 	return B.join('')
 
 	//return s; // в некоторых тестах заметен небольшой прирост, но в других наоборот деградация
-	//return BF.toString('binary',0, s); // toString работает медленно
+	//return BF.toString('binary',0, s); // через буфер медленно
 };
+
+
