@@ -385,7 +385,8 @@ var objectToHTML = new function(rr) {
 		, 'method': 'method'
 		, 'action': 'action'
 	};
-
+	
+	var textBuffer = '';
 
 	var entities_rg = /["&<>]/g, ecm = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}; // for html entity
 	function entities_re(a) {return ecm[a]};
@@ -399,7 +400,7 @@ var objectToHTML = new function(rr) {
 
 
 	
-	function objectToHTML(nn, buu) {
+	function objectToHTML(nn) {
 		var m, n, x, v, i, l, u
 		, name = nn.nodeName 
 		, attrs = ''
@@ -433,7 +434,7 @@ var objectToHTML = new function(rr) {
 
 		switch(name) {
 			case 'meta': case 'br': 
-				buu.push('<' + name + attrs + '/>'); // потомков у него нет
+				textBuffer += '<' + name + attrs + '/>';
 				return;
 		};
 
@@ -442,7 +443,7 @@ var objectToHTML = new function(rr) {
 
 		// потомки
 		if (m = nn.childNodes) {
-			buu.push('<' + name + attrs + '>');
+			textBuffer += '<' + name + attrs + '>';
 
 			for(i = 0, l = m.length; i < l ;i++) {
 				n = m[i];
@@ -451,46 +452,46 @@ var objectToHTML = new function(rr) {
 
 				/*
 				if (n.nodeType === 1) {
-						objectToHTML(n, buu);
+						objectToHTML(n);
 						continue;
 				};
 
 				if (n.nodeType === 3) {
-						buu.push(String(n.data).replace(entities_rg, entities_re) );
+						textBuffer += String(n.data).replace(entities_rg, entities_re);
 						continue;
 				};
 				
 				if (n.nodeType === 42) {
-						buu.push(n.data);
+						textBuffer += n.data;
 						continue;
 				};
 				*/
 
 				switch(n.nodeType) {
 					case 1:
-						objectToHTML(n, buu);
+						objectToHTML(n);
 						continue;
 					
 					case 3: // text
-						buu.push(String(n.data).replace(entities_rg, entities_re) );
+						textBuffer += String(n.data).replace(entities_rg, entities_re);
 						continue;
 					
 					case 42: // как есть _.write('...')
-						buu.push(n.data);
+						textBuffer += n.data;
 						continue;
 				};
 			};
 			
-			buu.push('</' + name + '>');
+			textBuffer += '</' + name + '>';
 		} else {
-			buu.push('<' + name + attrs + '></' + name + '>');
+			textBuffer += '<' + name + attrs + '></' + name + '>';
 		};
 	};
 
 	//return objectToHTML;
 
 
-	function turn(m, buu) {
+	function turn(m) {
 		var i = 0, l = m.length, n;
 		
 		for(;i < l; i++) {
@@ -500,43 +501,52 @@ var objectToHTML = new function(rr) {
 
 			switch(n.nodeType) {
 				case 1:
-					objectToHTML(n, buu);
+					objectToHTML(n);
 					continue;
 				
 				case 3: // text
-					buu.push(String(n.data).replace(entities_rg, entities_re) );
+					textBuffer += String(n.data).replace(entities_rg, entities_re);
 					continue;
 				
 				case 42: // как есть _.write('...')
-					buu.push(n.data);
+					textBuffer += n.data;
 					continue;
 			};
 
 			switch(typeof n) {
-				case 'number': buu.push(n); break;
+				case 'number': 
+					textBuffer += n;
+					break;
+
 				case 'string': 
-					buu.push(n.replace(entities_rg, entities_re) );
+					textBuffer += n.replace(entities_rg, entities_re);
 					break;
 
 				case 'object':
 					if (Array.isArray(nn)) {
-						turn(m, buu)
+						turn(m)
 					};
 			};
 		};
 	};
 	
 
-	function toHTML(nn, buu) {
+	function toHTML(nn) {
+
 		if (nn.nodeType === 1) {
-			objectToHTML(nn, buu);
+			objectToHTML(nn);
 		}
 		else if (Array.isArray(nn) ) {
-			turn(nn, buu);
+			turn(nn);
 		}
 		else if (nn.nodeType < 0 && nn.node) {
-			toHTML(nn.node, buu);
+			toHTML(nn.node);
 		};
+
+		var r = textBuffer;
+		textBuffer = '';
+
+		return r;
 	};
 	
 	return toHTML;
@@ -571,11 +581,6 @@ exports.toHTML = objectToHTML; // конвектор обьектной моде
 
 // var BF = new Buffer(1024*1024*10);
 exports.render = function(nn, params) {
-	var B = [];
-
-	//var B = {push: function(x) {s += x}}, s = '', x; // в ноде строки быстрее соберать чем через массив. но не всегда. 
-	//var s = 0, B = {push: function(x) {s += BF.write(x, s, 'binary') }}; // через буфер медленно
-	
 
 	if (typeof nn === 'string') {
 		// if (nn.indexOf('tmpl:') === 0) {
@@ -592,12 +597,7 @@ exports.render = function(nn, params) {
 
 
 	if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
-	objectToHTML(new nn(master, params||false), B);
-
-	return B.join('')
-
-	//return s; // в некоторых тестах заметен небольшой прирост, но в других наоборот деградация
-	//return BF.toString('binary',0, s); // через буфер медленно
+	return objectToHTML(new nn(master, params||false));
 };
 
 
