@@ -29,7 +29,7 @@ var new_master = new function() {
 
 			if (typeof nn === 'string') { // если строка, то требуется создать новый обьект
 				if (hash_elements[nn]) {
-					nn = {nodeType: 1, nodeName: nn};
+					nn = {nodeType: 1, nodeName: nn, parentNode: false};
 				} 
 				else if (nn.length > 5 && nn[4] === ':' && nn[0] === 't' && nn[1] === 'm' && nn[2] === 'p' && nn[3] === 'l') { // по тестам вроде есть прирост
 				// else if (nn.indexOf('tmpl:') === 0) {
@@ -58,16 +58,16 @@ var new_master = new function() {
 						i = nn.indexOf('.');
 
 						if (css = i !== -1) {
-							nn = {nodeType: 1, nodeName: nn.substring(0, i), 'class': nn.substring(i + 1, x), id: nn.substring(x + 1)};
+							nn = {nodeType: 1, nodeName: nn.substring(0, i), 'class': nn.substring(i + 1, x), id: nn.substring(x + 1), parentNode: false};
 						} else {
-							nn = {nodeType: 1, nodeName: nn.substring(0, x), id: nn.substring(x + 1) };
+							nn = {nodeType: 1, nodeName: nn.substring(0, x), id: nn.substring(x + 1), parentNode: false};
 						};
 					} else {
 						i = nn.indexOf('.'); 
 						if (css = i !== -1) {
-							nn = {nodeType: 1, nodeName: nn.substring(0, i), 'class': nn.substring(i + 1)};
+							nn = {nodeType: 1, nodeName: nn.substring(0, i), 'class': nn.substring(i + 1), parentNode: false};
 						} else {
-							nn = {nodeType: 1, nodeName: nn};
+							nn = {nodeType: 1, nodeName: nn, parentNode: false};
 						};
 					};
 
@@ -98,8 +98,7 @@ var new_master = new function() {
 					if (nn._set_parameters === true && typeof nn.set == 'function') {
 						nn.set(pm);
 					};
-				} 
-				else {
+				} else {
 					for (x in pm) {
 						v = pm[x];
 						// if (v === u) continue;
@@ -113,7 +112,7 @@ var new_master = new function() {
 										nn['class'] = v;
 									};
 								};
-								break; 
+								continue; 
 
 							// у меня сомнение что идеологически это правильно. но он зараза удобен ). 
 							// атрибут text при этом создать не получиться
@@ -122,11 +121,11 @@ var new_master = new function() {
 									arguments[1] = {nodeType: 3, data: v}; // второй аргумет свободен потому как есть параметры
 									append_index = 1;
 								};
-								break;
+								continue;
 
 							// зарезервированные значения
-							case 'nodeName': case 'nodeType': case 'childNodes': case 'appendChild': //case 'parent': case 'before': case 'after': 
-								break;
+							case 'nodeName': case 'nodeType': case 'childNodes': case 'appendChild': case 'parentNode':  //case 'parent': case 'before': case 'after': 
+								continue;
 
 							default:
 								if (v !== u) { 
@@ -532,7 +531,6 @@ var objectToHTML = new function(rr) {
 	
 
 	function toHTML(nn) {
-
 		if (nn.nodeType === 1) {
 			objectToHTML(nn);
 		}
