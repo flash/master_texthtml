@@ -408,25 +408,35 @@ var objectToHTML = new function(rr) {
 		// атрибуты 
 		for(i in nn) {
 			x = attr_name[i];
+
 			if (x === false) continue;
 
 			if (x === u) {
 				// if (i.indexOf('_') === 0 ) continue;
-				if (i[0] === '_' ) continue;
+				if (i[0] === '_') continue;
 				x = i;
 			};
 
-			if (v = nn[i]) {
-				switch(x) {
-					case 'class': case 'id': // эти атрибуты не экранирую потому как обычно в них не помешают недоверенные данные
-						attrs += ' ' + x + '="' + v + '"';
-						break;
-					default:
-						attrs += ' ' + x + '="' + String(v).replace(entities_rg, entities_re) + '"';
+			v = nn[i];
+
+			if (!v) {
+				if (v === 0) {
+					attrs += ' ' + x + '="0"';
 				};
-			}
-			else if (v === 0) {
-				attrs += ' ' + x + '="0"';
+				continue;
+			};
+
+			switch(x) {
+				case 'class': // эти атрибуты не экранирую потому как обычно в них не помешают недоверенные данные
+					attrs += ' class="' + v + '"';
+					break;
+
+				case 'id': // эти атрибуты не экранирую потому как обычно в них не помешают недоверенные данные
+					attrs += ' id="' + v + '"';
+					break;
+
+				default:
+					attrs += ' ' + x + '="' + String(v).replace(entities_rg, entities_re) + '"';
 			};
 		};
 
@@ -441,50 +451,36 @@ var objectToHTML = new function(rr) {
 
 
 		// потомки
-		if (m = nn.childNodes) {
-			textBuffer += '<' + name + attrs + '>';
+		m = nn.childNodes;
 
-			for(i = 0, l = m.length; i < l ;i++) {
-				n = m[i];
-
-				if (!n) continue;
-
-				/*
-				if (n.nodeType === 1) {
-						objectToHTML(n);
-						continue;
-				};
-
-				if (n.nodeType === 3) {
-						textBuffer += String(n.data).replace(entities_rg, entities_re);
-						continue;
-				};
-				
-				if (n.nodeType === 42) {
-						textBuffer += n.data;
-						continue;
-				};
-				*/
-
-				switch(n.nodeType) {
-					case 1:
-						objectToHTML(n);
-						continue;
-					
-					case 3: // text
-						textBuffer += String(n.data).replace(entities_rg, entities_re);
-						continue;
-					
-					case 42: // как есть _.write('...')
-						textBuffer += n.data;
-						continue;
-				};
-			};
-			
-			textBuffer += '</' + name + '>';
-		} else {
+		if (!m) {
 			textBuffer += '<' + name + attrs + '></' + name + '>';
+			return;
 		};
+
+		textBuffer += '<' + name + attrs + '>';
+
+		for(i = 0, l = m.length; i < l ;i++) {
+			n = m[i];
+
+			if (!n) continue;
+
+			switch(n.nodeType) {
+				case 1:
+					objectToHTML(n);
+					continue;
+				
+				case 3: // text
+					textBuffer += String(n.data).replace(entities_rg, entities_re);
+					continue;
+				
+				case 42: // как есть _.write('...')
+					textBuffer += n.data;
+					continue;
+			};
+		};
+		
+		textBuffer += '</' + name + '>';
 	};
 
 	//return objectToHTML;
