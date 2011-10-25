@@ -139,7 +139,7 @@ var new_master = new function() {
 
 			// append child
 			if (is_group) {
-				if (typeof nn.appendChild === 'function') {
+				if (typeof nn.appendChild !== 'function') {
 					pn = nn.box || nn.node || false;
 				} else {
 					sx = true; // у обьекта свой способ добавления элементов
