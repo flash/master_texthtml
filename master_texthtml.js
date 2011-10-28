@@ -166,6 +166,8 @@ var new_master = new function() {
 		master.text = text;
 		master.write = write;
 		master.map = map;
+		master.htmlEscape = htmlEscape;
+		master.urlEscape = urlEscape;
 
 		return master;
 	};
@@ -336,6 +338,18 @@ var new_master = new function() {
 		};
 
 		return m;
+	};
+
+	var entities_rg = /["&<>]/g, entities_cm = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'};
+	function entities_re(a) {return entities_cm[a]};
+
+	function htmlEscape(v) {
+		return String(A).replace(entities_rg, entities_re); 
+	};
+
+
+	function urlEscape(x) {
+		return encodeURIComponent(x);
 	};
 	
 	return new_master;
