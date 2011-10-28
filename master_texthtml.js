@@ -12,7 +12,7 @@ var new_master = new function() {
 			if (!uu) return;
 
 			var nn = uu
-			, i, x, css, pn, sx, v, p, a, c //, id
+			, i, x, css, nbox, v, p, a, c //, id
 			, append_index = 1 // с какого аргумента наченаются потомки
 			, pm = false // параметры
 			, is_group // флаг что это компонент (nodeType < 0)
@@ -38,7 +38,7 @@ var new_master = new function() {
 						if (!c.prototype.nodeType) c.prototype.nodeType = -1; // чтобы в шаблоне каждый рас не опредлять
 						v = new c(master, pm, false);
 
-						if (!nn.nodeType) {
+						if (!v.nodeType) {
 							return text('[ ups!! '+ nn +']') // ошибка в шаблоне. отобразим ее чтоб было видно
 						};
 
@@ -140,31 +140,27 @@ var new_master = new function() {
 			// append child
 			if (is_group) {
 				if (typeof nn.appendChild !== 'function') {
-					pn = nn.box || nn.node || false;
+					nbox = nn.box || nn.node || false;
 				} else {
-					sx = true; // у обьекта свой способ добавления элементов
+					append_other(nn, arguments)
+					// nbox = false;
 				};
 			} else {
-				pn = nn;
+				nbox = nn;
 			};
 
-			if (sx) {
-				append_other(nn, arguments)
-			} 
-			else if (pn) {
-				if (pn.childNodes) {
-					append_nativ(pn, pn.childNodes, arguments, append_index)
+			if (nbox && append_index < arguments.length) {
+				if (nbox.childNodes) {
+					append_nativ(nbox, nbox.childNodes, arguments, append_index)
 				} else {
-					append_nativ(pn, x = [], arguments, append_index); 
+					append_nativ(nbox, x = [], arguments, append_index); 
 					if (x.length > 0) {
-						pn.childNodes = x;
+						nbox.childNodes = x;
 					};
 				};
 			};
 
-			// return and insert element
 			return nn;
-			//return pm && !is_group ? pm.parent || pm.after || pm.before ? insert(nn, pm, is_group) : nn : nn ;
 		};
 
 		master.text = text;
@@ -175,7 +171,7 @@ var new_master = new function() {
 	};
 
 	function append_nativ(nn, childs, m, i) {
-		var l = m.length, a, n, u; //, i = ix, x, l = len || m.length 
+		var l = m.length, a, n, u; 
 
 		while(i < l) {
 			a = m[i++];
