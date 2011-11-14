@@ -128,7 +128,7 @@ var new_master = new function() {
 								continue;
 
 							default:
-								if (v !== u) { 
+								if (v != null) { 
 									nn[x] = v;
 								};
 						};
@@ -166,6 +166,7 @@ var new_master = new function() {
 		master.text = text;
 		master.write = write;
 		master.map = map;
+		master.set = set;
 		master.htmlEscape = htmlEscape;
 		master.urlEscape = urlEscape;
 
@@ -340,6 +341,23 @@ var new_master = new function() {
 		return m;
 	};
 
+	function set(nn, p) {
+		var x, v;
+
+		for (x in p) {
+			v = p[x];
+			if (v != null) {
+				if (x === 'css') {
+					nn['class'] = v;
+				} else {
+					nn[x] = v;
+				};
+			};
+
+		};
+	};
+
+	
 	var entities_rg = /["&<>]/g, entities_cm = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'};
 	function entities_re(a) {return entities_cm[a]};
 
@@ -408,14 +426,10 @@ var objectToHTML = new function(rr) {
 	};
 
 
-	
-	function objectToHTML(nn) {
-		var m, n, x, v, i, l, u
-		, name = nn.nodeName 
-		, attrs = ''
-		;
-
+	function attrGen(nn) {
 		// атрибуты 
+		var x, v, i, u, attrs = '';
+
 		for(i in nn) {
 			x = attr_name[i];
 
@@ -450,15 +464,21 @@ var objectToHTML = new function(rr) {
 			};
 		};
 
+		return attrs;
+	};
+	
+	function objectToHTML(nn) {
+		var m, n, i, l
+		, name = nn.nodeName 
+		, attrs = attrGen(nn) // атрибуты 
+		;
 
 		switch(name) {
-			case 'meta': case 'br': 
+			case 'meta': 
+			case 'br': 
 				textBuffer += '<' + name + attrs + '/>';
 				return;
 		};
-
-		
-
 
 		// потомки
 		m = nn.childNodes;
@@ -470,7 +490,7 @@ var objectToHTML = new function(rr) {
 
 		textBuffer += '<' + name + attrs + '>';
 
-		for(i = 0, l = m.length; i < l ;i++) {
+		for(i = 0, l = m.length; i < l ; i++) {
 			n = m[i];
 
 			if (!n) continue;
