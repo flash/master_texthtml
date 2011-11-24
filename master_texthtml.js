@@ -15,7 +15,7 @@ var new_master = new function() {
 			, i, x, css, nbox, v, p, a, c //, id
 			, append_index = 1 // с какого аргумента наченаются потомки
 			, pm = false // параметры
-			, is_group // флаг что это компонент (nodeType < 0)
+			, is_group = false // флаг что это компонент (nodeType < 0)
 			, u
 			;
 
@@ -415,16 +415,8 @@ var objectToHTML = new function(rr) {
 	
 	var textBuffer = '';
 
-	var entities_rg = /["&<>]/g, ecm = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}; // for html entity
+	var entities_attr = /["&<>]/g, entities_text = /[&<>]/g, ecm = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}; // for html entity
 	function entities_re(a) {return ecm[a]};
-
-	
-	// в тестах вроде выигрывает такой подход. но на практике получается другой. нужно больше тестировать
-	function entities(S) {
-		return String(S).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-		//return /[&<>"]/.test(S) ? String(S).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : S;
-	};
-
 
 	function attrGen(nn) {
 		// атрибуты 
@@ -460,7 +452,7 @@ var objectToHTML = new function(rr) {
 					break;
 
 				default:
-					attrs += ' ' + x + '="' + String(v).replace(entities_rg, entities_re) + '"';
+					attrs += ' ' + x + '="' + String(v).replace(entities_attr, entities_re) + '"';
 			};
 		};
 
@@ -468,9 +460,10 @@ var objectToHTML = new function(rr) {
 	};
 	
 	function objectToHTML(nn) {
-		var m, n, i, l
-		, name = nn.nodeName 
+		var n, i, l
+		, childs = nn.childNodes
 		, attrs = attrGen(nn) // атрибуты 
+		, name = nn.nodeName 
 		;
 
 		switch(name) {
@@ -481,17 +474,15 @@ var objectToHTML = new function(rr) {
 		};
 
 		// потомки
-		m = nn.childNodes;
-
-		if (!m) {
+		if (!childs) {
 			textBuffer += '<' + name + attrs + '></' + name + '>';
 			return;
 		};
 
 		textBuffer += '<' + name + attrs + '>';
 
-		for(i = 0, l = m.length; i < l ; i++) {
-			n = m[i];
+		for(i = 0, l = childs.length; i < l ; i++) {
+			n = childs[i];
 
 			if (!n) continue;
 
@@ -501,7 +492,7 @@ var objectToHTML = new function(rr) {
 					continue;
 				
 				case 3: // text
-					textBuffer += String(n.data).replace(entities_rg, entities_re);
+					textBuffer += String(n.data).replace(entities_text, entities_re); // /[&<>]/g
 					continue;
 				
 				case 42: // как есть _.write('...')
@@ -530,7 +521,7 @@ var objectToHTML = new function(rr) {
 					continue;
 				
 				case 3: // text
-					textBuffer += String(n.data).replace(entities_rg, entities_re);
+					textBuffer += String(n.data).replace(entities_text, entities_re);
 					continue;
 				
 				case 42: // как есть _.write('...')
@@ -544,7 +535,7 @@ var objectToHTML = new function(rr) {
 					break;
 
 				case 'string': 
-					textBuffer += n.replace(entities_rg, entities_re);
+					textBuffer += n.replace(entities_text, entities_re);
 					break;
 
 				case 'object':
@@ -623,5 +614,7 @@ exports.render = function(nn, params) {
 	if (!nn.prototype.nodeType) nn.prototype.nodeType = -1;
 	return objectToHTML(new nn(master, params||false));
 };
+
+
 
 

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var master = require('./master_texthtml.js');
+var master = require('../master_texthtml.js');
 var tmpl = global.tmpl; // мастер создал глобальный хеш для шаблонов
 
 require('./tmpl/tmpl.test_bench.js'); 
@@ -193,7 +193,7 @@ tmpl.test_table = function(_, p) {
 	// осторожно с тестами . некоторые очень медленные а некоторые очень быстрые
 	// меняйте значение max(число итераций) по обстоятельсятву 
 
-	var T1, max = 100, x = max, tx='';
+	var T1, max = 10000, x = max, tx='';
 
 	var fn = function() {};
 
@@ -203,7 +203,9 @@ tmpl.test_table = function(_, p) {
 	
 	
 	while(x--) {
-		// tx = master.render('tmpl:bench', bench_vars);
+		tx = master.render('tmpl:bench', bench_vars);
+		// tx = master.render('tmpl:bench', JSON.parse(JSON.stringify(bench_vars)) );
+
 		// tx = master.render('tmpl:jade_tiny', false);
 		// tx = master.render(tmpl.jade_tiny, false);
 		// tx = master.render('tmpl:jade_small', false);
@@ -211,9 +213,7 @@ tmpl.test_table = function(_, p) {
 		// tx = master.render('tmpl:habr_big', false); // большой статический шаблон. там где много стической информации мастер не эффективен.
 		// tx = master.render('tmpl:test_table', {table: value_for_testTable});
 		// tx = master.render('tmpl:test_page', false);
-		 tx = master.render('tmpl:test_jinja', value_for_test_jinja);
-		
-		
+		// tx = master.render('tmpl:test_jinja', value_for_test_jinja);
 	};
 
 	T1 = new Date() - T1; 
